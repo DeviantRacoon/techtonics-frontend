@@ -9,8 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { es } from 'date-fns/locale';
 
-import Sidebar from '../SideMenu/Sidebar'
-import { useSidebarState } from '../SideMenu/useSidebarState'
+import DrawerContent from '../SideMenu/DrawerContent'
 import AppHeader from '../Navbar/AppHeader'
 import ConfirmModal from '@/common/components/ConfirmModal'
 import { useSessionExpiration } from '@/common/hooks'
@@ -25,8 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const { open: sidebarOpen, toggle } = useSidebarState(!isMobile)
-  const drawerWidth = isMobile ? 0 : sidebarOpen ? 240 : 72
+  const drawerWidth = isMobile ? 0 : 75
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -36,10 +34,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* Menú lateral */}
           <Box component="aside" aria-label="Menú de navegación lateral">
-            <Sidebar open={sidebarOpen} onToggle={toggle} />
+            <DrawerContent />
           </Box>
 
-          <AppHeader onMenuClick={toggle} />
+          <AppHeader />
 
           {/* Contenido principal */}
           <Box
@@ -48,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             sx={{
               flexGrow: 1,
               pt: 8,
-              pl: { xs: 2, sm: drawerWidth + 8 },
+              pl: { xs: 2, sm: `${drawerWidth + 8}px` },
               pr: 2,
               pb: 4,
               transition: 'padding-left 0.3s ease',
