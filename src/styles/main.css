@@ -1,0 +1,21 @@
+/* Estilo general */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.calm-pattern {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    #e7ecf0 1.2px,
+    transparent 0
+  );
+  background-size: 24px 24px;
+  background-repeat: repeat;
+  background-color: #ffffff;
+}
+
+.dots {
+  background-size: 30px 30px;
+}

@@ -1,0 +1,42 @@
+{
+  "name": "frontend-avan",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/inter": "^5.2.5",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.1",
+    "@mui/x-date-pickers": "^8.5.1",
+    "@reduxjs/toolkit": "^2.7.0",
+    "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^12.6.3",
+    "jose": "^6.0.11",
+    "next": "15.2.4",
+    "papaparse": "^5.5.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/redux-persist": "^4.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
+    "typescript": "^5"
+  }
+}
