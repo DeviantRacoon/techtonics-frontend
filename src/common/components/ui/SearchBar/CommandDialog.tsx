@@ -15,6 +15,7 @@ import {
   Typography,
   Box,
 } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 
 import SearchIcon from '@mui/icons-material/Search'
 import { useRouter } from 'next/navigation'
@@ -124,14 +125,14 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
       maxWidth="sm"
       keepMounted
       PaperProps={{
-        sx: {
+        sx: (theme) => ({
           mt: 10,
           borderRadius: 3,
           backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(255,255,255,0.9)',
+          backgroundColor: alpha(theme.palette.background.paper, 0.9),
           boxShadow: '0 12px 32px rgba(0,0,0,0.1)',
           p: 2,
-        },
+        }),
       }}
     >
       <DialogContent sx={{ px: 0 }}>

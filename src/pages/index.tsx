@@ -23,7 +23,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main style={{ backgroundColor: '#f9f9fb', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         
         {/* Hero Section */}
         <Box flex={1}>
@@ -101,12 +101,12 @@ export default function Home() {
         </Box>
 
         {/* Footer */}
-        <Box sx={{ py: 4, textAlign: 'center', backgroundColor: '#f1f1f1', color: 'text.secondary' }} component="footer">
+        <Box sx={{ py: 4, textAlign: 'center', backgroundColor: 'grey.100', color: 'text.secondary' }} component="footer">
           <Typography variant="body2">
             © {new Date().getFullYear()} Avan. Todos los derechos reservados.
           </Typography>
         </Box>
-      </main>
+      </Box>
     </>
   )
 }

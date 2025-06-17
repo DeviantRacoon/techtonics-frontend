@@ -149,7 +149,7 @@ const SmartFileInput = forwardRef<SmartFileInputRef, SmartFileInputProps>(({
       px: 2,
       py: 1.5,
       borderRadius: 2,
-      bgcolor: disabled ? 'action.disabledBackground' : '#fff',
+      bgcolor: disabled ? 'action.disabledBackground' : 'background.paper',
       border: '1px dashed',
       borderColor: touched && error ? 'error.main' : 'divider',
       transition: '0.2s ease',
@@ -158,7 +158,7 @@ const SmartFileInput = forwardRef<SmartFileInputRef, SmartFileInputProps>(({
       <Box sx={{
         width: 60,
         height: 60,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: 'grey.100',
         borderRadius: 2,
         display: 'flex',
         alignItems: 'center',
