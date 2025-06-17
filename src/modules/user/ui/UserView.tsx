@@ -4,7 +4,7 @@ import React, { useEffect, Fragment } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import SwitchAccountRoundedIcon from "@mui/icons-material/SwitchAccountRounded";
 
-import { SmartTable, Header, SmartButton, ModalForm, ConfirmModal } from "@/common/components";
+import { SmartTable, Header, SmartButton, ModalForm, ConfirmModal, ThemedIcon } from "@/common/components";
 
 import { useUserController } from "../application/useUserController";
 import { useUserUI } from "../application/useUserUI";
@@ -85,7 +85,7 @@ export function UserView() {
               if (row?.status === "ELIMINADO") return true
               return !getAllowedActions("user_edit")
             },
-            icon: <img src="/assets/svg/create-outline.svg" alt="edit" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/create-outline.svg" alt="edit" width={20} />,
             onClick: handleEdit
           },
           {
@@ -94,13 +94,13 @@ export function UserView() {
               if (row?.status === "ACTIVO") return true
               return !getAllowedActions("user_edit")
             },
-            icon: <img src="/assets/svg/checkmark-circle-outline.svg" alt="active" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/checkmark-circle-outline.svg" alt="active" width={20} />,
             onClick: handleActive
           },
           {
             label: "Eliminar",
             hidden: !getAllowedActions("user_edit"),
-            icon: <img src="/assets/svg/trash-outline.svg" alt="delete" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/trash-outline.svg" alt="delete" width={20} />,
             onClick: handleDelete
           },
         ]}

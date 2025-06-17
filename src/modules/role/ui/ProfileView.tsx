@@ -5,7 +5,7 @@ import React, { useEffect, Fragment } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
-import { SmartTable, Header, SmartButton, ModalForm, ConfirmModal } from "@/common/components";
+import { SmartTable, Header, SmartButton, ModalForm, ConfirmModal, ThemedIcon } from "@/common/components";
 import { getAllowedActions } from "@/common/utils";
 
 import { useProfileController } from "../application/useProfileController";
@@ -79,7 +79,7 @@ export function ProfileView() {
               if (row?.status === "ELIMINADO") return true
               return !getAllowedActions("role_edit")
             },
-            icon: <img src="/assets/svg/create-outline.svg" alt="edit" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/create-outline.svg" alt="edit" width={20} />,
             onClick: handleEdit,
           },
           {
@@ -88,7 +88,7 @@ export function ProfileView() {
               if (row?.status === "ELIMINADO") return true
               return !getAllowedActions('role_permission_edit')
             },
-            icon: <img src="/assets/svg/settings-outline.svg" alt="permissions" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/settings-outline.svg" alt="permissions" width={20} />,
             onClick: (row) => handleRequestEdit(row, catalogs),
           },
           {
@@ -97,7 +97,7 @@ export function ProfileView() {
               if (row?.status === "ELIMINADO") return true
               return !getAllowedActions('role_edit')
             },
-            icon: <img src="/assets/svg/trash-outline.svg" alt="delete" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/trash-outline.svg" alt="delete" width={20} />,
             onClick: handleDelete,
           },
         ]}

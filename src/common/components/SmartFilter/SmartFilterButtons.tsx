@@ -20,6 +20,8 @@ import {
   useTheme
 } from '@mui/material'
 
+import ThemedIcon from '../ThemedIcon'
+
 import DownloadIcon from '@mui/icons-material/Download'
 import ViewColumnIcon from '@mui/icons-material/ViewColumn'
 
@@ -74,7 +76,7 @@ export default function SmartFilterButtons({
         {/* Filtros */}
         <Tooltip title="Filtros avanzados">
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} size="small">
-            <img src="/assets/svg/options-outline.svg" alt="Filtros" width={20} />
+            <ThemedIcon src="/assets/svg/options-outline.svg" alt="Filtros" width={20} />
           </IconButton>
         </Tooltip>
 
