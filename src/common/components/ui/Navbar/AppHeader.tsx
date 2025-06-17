@@ -9,6 +9,7 @@ import {
 
 import SearchActivator from '../SearchBar/SearchActivator';
 import UserMenu from './UserMenu';
+import ThemeToggle from './ThemeToggle'
 
 export default function AppHeader() {
   const theme = useTheme();
@@ -43,6 +44,7 @@ export default function AppHeader() {
         disableGutters
         sx={{ justifyContent: 'space-between', minHeight: 64, px: 2, zIndex: 10 }}>
         <SearchActivator />
+        <ThemeToggle />
         <UserMenu />
       </Toolbar>
     </AppBar>
