@@ -6,9 +6,10 @@ export const SidebarContainer = styled(motion.aside)(({ theme }) => ({
   height: '100vh',
   position: 'fixed',
   left: 0,
-  background: theme.palette.mode === 'dark'
-    ? theme.palette.background.default
-    : 'linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%)',
+  background:
+    theme.palette.mode === 'dark'
+      ? theme.palette.background.default
+      : `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.grey[50]} 100%)`,
   backdropFilter: 'blur(12px)',
   boxShadow: '4px 0 20px rgba(0,0,0,0.06)',
   zIndex: 1101,

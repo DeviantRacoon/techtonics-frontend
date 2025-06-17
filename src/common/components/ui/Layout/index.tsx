@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const drawerWidth = isMobile ? 0 : 75
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#ecf5f9' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <ToastProvider>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
           <CssBaseline />
