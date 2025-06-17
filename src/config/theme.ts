@@ -25,15 +25,15 @@ export const createCustomTheme = (mode: PaletteMode) => {
   const palette = {
     mode,
     primary: {
-      main: '#0F4C81',
-      light: '#6EA8E5',
-      dark: '#062B4F',
+      main: '#1666ef',
+      light: '#5b9cfd',
+      dark: '#0f3e9c',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#C8102E',
-      light: '#F2546D',
-      dark: '#900021',
+      main: '#8e24aa',
+      light: '#c158dc',
+      dark: '#5a0074',
       contrastText: '#ffffff',
     },
     error: { main: '#D32F2F', contrastText: '#ffffff' },
@@ -42,9 +42,9 @@ export const createCustomTheme = (mode: PaletteMode) => {
     success: { main: '#43A047', contrastText: '#ffffff' },
     ...(mode === 'light'
       ? {
-          background: { default: '#F8FAFF', paper: '#ffffff' },
-          text: { primary: '#02395B', secondary: '#2E4053', disabled: '#A3A3A3' },
-          divider: '#E0E0E0',
+          background: { default: '#f5f7fd', paper: '#ffffff' },
+          text: { primary: '#101526', secondary: '#525a70', disabled: '#9AA1B2' },
+          divider: '#e2e5ec',
           grey: {
             50: '#F9FAFB',
             100: '#F3F4F6',
@@ -59,8 +59,8 @@ export const createCustomTheme = (mode: PaletteMode) => {
           },
         }
       : {
-          background: { default: '#0e1721', paper: '#1d2733' },
-          text: { primary: '#f3f3f3', secondary: '#cfd8dc', disabled: '#7c8691' },
+          background: { default: '#111827', paper: '#1f2937' },
+          text: { primary: '#e5eaf2', secondary: '#b3b8c4', disabled: '#6c7586' },
           divider: 'rgba(255,255,255,0.12)',
           grey: {
             50: '#fafafa',

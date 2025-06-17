@@ -13,7 +13,7 @@
   );
   background-size: 24px 24px;
   background-repeat: repeat;
-  background-color: #ffffff;
+  background-color: var(--mui-palette-background-paper, #ffffff);
 }
 
 .dots {
