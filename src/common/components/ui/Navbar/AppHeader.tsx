@@ -4,15 +4,19 @@ import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
+  IconButton,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
 
 import SearchActivator from '../SearchBar/SearchActivator';
 import UserMenu from './UserMenu';
 import ThemeToggle from './ThemeToggle'
+import MenuIcon from '@mui/icons-material/Menu'
 
-export default function AppHeader() {
+export default function AppHeader({ onMenuClick }: { onMenuClick?: () => void }) {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -43,6 +47,11 @@ export default function AppHeader() {
       <Toolbar
         disableGutters
         sx={{ justifyContent: 'space-between', minHeight: 64, px: 2, zIndex: 10 }}>
+        {isMobile && (
+          <IconButton onClick={onMenuClick} sx={{ mr: 1, color: theme.palette.text.primary }}>
+            <MenuIcon />
+          </IconButton>
+        )}
         <SearchActivator />
         <ThemeToggle />
         <UserMenu />
