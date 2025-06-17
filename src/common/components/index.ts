@@ -8,7 +8,8 @@ import ConfirmModal from "./ConfirmModal";
 import ModalForm from "./ModalForm";
 import SmartFileInput from "./SmartFileInput";
 import { ToastProvider } from "./ToastProvider";
+import ThemedIcon from "./ThemedIcon";
 
 
-export { SmartButton, SmartInput, SmartTable, Header, Modal, ConfirmModal, ModalForm, SmartSelect, ToastProvider };
+export { SmartButton, SmartInput, SmartTable, Header, Modal, ConfirmModal, ModalForm, SmartSelect, ToastProvider, ThemedIcon };
 export type { SmartInputRef };

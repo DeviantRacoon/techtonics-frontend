@@ -14,6 +14,7 @@ import {
   Typography,
   Box
 } from '@mui/material';
+import ThemedIcon from '../ThemedIcon';
 
 export interface SmartInputRef {
   isValid: () => boolean;
@@ -164,9 +165,9 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
                 disabled={disabled}
               >
                 {showPassword ? (
-                  <img src="/assets/svg/eye-off-outline.svg" alt="ocultar" width="20" />
+                  <ThemedIcon src="/assets/svg/eye-off-outline.svg" alt="ocultar" width={20} />
                 ) : (
-                  <img src="/assets/svg/eye-outline.svg" alt="mostrar" width="20" />
+                  <ThemedIcon src="/assets/svg/eye-outline.svg" alt="mostrar" width={20} />
                 )}
               </IconButton>
             </InputAdornment>

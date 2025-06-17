@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { TextField, InputAdornment, IconButton } from '@mui/material'
+import ThemedIcon from '../ThemedIcon'
 
 interface Props {
   value: string
@@ -29,7 +30,7 @@ export default function SmartFilterInput({ value, onChange, onSearch, placeholde
               edge="end"
               size="small"
               aria-label="Buscar">
-              <img src="/assets/svg/search-outline.svg" alt="buscar" width={18} />
+              <ThemedIcon src="/assets/svg/search-outline.svg" alt="buscar" width={18} />
             </IconButton>
           </InputAdornment>
         )

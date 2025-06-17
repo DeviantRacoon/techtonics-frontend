@@ -7,7 +7,7 @@ import Router from "next/router";
 import { Stack, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 
 // Commons
-import { SmartButton, SmartInput, SmartInputRef } from "@/common/components";
+import { SmartButton, SmartInput, SmartInputRef, ThemedIcon } from "@/common/components";
 
 // Services
 import { forgotPassword } from "@/modules/auth/auth.services";
@@ -85,7 +85,7 @@ export default function AuthModule() {
             label="Correo"
             placeholder="Escribe tu correo"
             name="email"
-            leftIcon={<img src="/assets/svg/person-circle-outline.svg" alt="correo" width="20" />}
+            leftIcon={<ThemedIcon src="/assets/svg/person-circle-outline.svg" alt="correo" width={20} />}
             size="small"
           />
 

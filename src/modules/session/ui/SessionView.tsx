@@ -3,7 +3,7 @@
 import React, { useEffect, Fragment } from "react";
 import Settings from "@mui/icons-material/Settings";
 
-import { SmartTable, Header, ConfirmModal } from "@/common/components";
+import { SmartTable, Header, ConfirmModal, ThemedIcon } from "@/common/components";
 
 import { useSessionController } from "../application/useSessionController";
 import { useSessionUI } from "../application/useSessionUI";
@@ -53,13 +53,13 @@ export function SessionView() {
           {
             label: "Ban",
             hidden: !getAllowedActions("user_edit"),
-            icon: <img src="/assets/svg/ban-outline.svg" alt="active" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/ban-outline.svg" alt="active" width={20} />,
             onClick: handleBan
           },
           {
             label: "Eliminar",
             hidden: !getAllowedActions("user_edit"),
-            icon: <img src="/assets/svg/trash-outline.svg" alt="delete" width="20" />,
+            icon: <ThemedIcon src="/assets/svg/trash-outline.svg" alt="delete" width={20} />,
             onClick: handleDelete
           },
         ]}
