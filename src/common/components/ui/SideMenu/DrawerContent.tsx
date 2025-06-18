@@ -2,7 +2,8 @@
 'use client'
 
 import React, { useState, useCallback } from 'react'
-import { Box, List } from '@mui/material'
+import { Box, List, useTheme } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import { usePathname } from 'next/navigation'
 
 import { useDrawerContent } from './useDrawerContent'
@@ -15,6 +16,7 @@ export default function DrawerContent() {
   const pathname = usePathname()
   const [hovered, setHovered] = useState(false)
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({})
+  const theme = useTheme()
 
   const toggleSubmenu = useCallback((label: string) => {
     setOpenSubmenus(prev => ({ ...prev, [label]: !prev[label] }))
@@ -33,7 +35,9 @@ export default function DrawerContent() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.35)',
+            backgroundColor: theme.palette.mode === 'dark'
+              ? alpha(theme.palette.common.black, 0.5)
+              : alpha(theme.palette.common.black, 0.35),
             zIndex: 1100,
           }}
         />
