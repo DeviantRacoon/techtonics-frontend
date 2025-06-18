@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 
 import { useDrawerContent } from './useDrawerContent'
 import SidebarLogo from './SidebarLogo'
+import SidebarFooter from './SidebarFooter'
 import MenuItem from './MenuItem'
 import { SidebarContainer } from './styles'
 
@@ -51,7 +52,7 @@ export default function DrawerContent() {
       >
         <SidebarLogo expanded={hovered} />
 
-        <Box sx={{ px: 1 }}>
+        <Box sx={{ px: 1, flexGrow: 1 }}>
           <List>
             {menuItems.map((item) => (
               <MenuItem
@@ -65,6 +66,8 @@ export default function DrawerContent() {
             ))}
           </List>
         </Box>
+
+        <SidebarFooter expanded={hovered} />
       </SidebarContainer>
     </>
   )
