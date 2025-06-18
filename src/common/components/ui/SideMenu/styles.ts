@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 
 export const SidebarContainer = styled(motion.aside)(({ theme }) => ({
   height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
   position: 'fixed',
   left: 0,
   width: 72,
