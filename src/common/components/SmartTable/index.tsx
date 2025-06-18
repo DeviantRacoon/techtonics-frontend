@@ -98,7 +98,7 @@ const SmartTable = (props: SmartTableExtendedProps) => {
 
       {/* 📋 Tabla */}
       <TableContainer>
-        <Table stickyHeader>
+        <Table stickyHeader aria-labelledby="tableTitle">
           <TableHeader
             columns={visibleColumnDefs}
             filteredRows={filteredRows}

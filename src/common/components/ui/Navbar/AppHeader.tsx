@@ -9,7 +9,6 @@ import {
 
 import SearchActivator from '../SearchBar/SearchActivator';
 import UserMenu from './UserMenu';
-import ThemeToggle from './ThemeToggle'
 
 export default function AppHeader() {
   const theme = useTheme();
@@ -38,13 +37,12 @@ export default function AppHeader() {
         backdropFilter: scrolled ? 'blur(10px)' : 'none',
         boxShadow: scrolled ? '0 1px 4px rgba(0,0,0,0.05)' : 'none',
         transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
-        width: { sm: 'calc(100% - 83px)', md: 'calc(100% - 65px)' },
+        width: { sm: 'calc(100% - 83px)', md: 'calc(100% - 70px)' },
       }}>
       <Toolbar
         disableGutters
         sx={{ justifyContent: 'space-between', minHeight: 64, px: 2, zIndex: 10 }}>
         <SearchActivator />
-        <ThemeToggle />
         <UserMenu />
       </Toolbar>
     </AppBar>

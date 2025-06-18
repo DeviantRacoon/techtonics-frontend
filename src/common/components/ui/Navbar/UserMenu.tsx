@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Router from 'next/router';
+import { useColorMode } from '@/common/hooks'
 
 import {
   Avatar,
@@ -25,32 +26,33 @@ import Settings from '@mui/icons-material/Settings';
 import Person from '@mui/icons-material/Person';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import MenuIcon from '@mui/icons-material/Menu';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 
 import { useAppSelector } from '@/common/hooks';
 import { selectCurrentUser, clearCurrentUser as clearCurrentUserRedux } from '@/common/store';
 import { clearCurrentUser } from '@/common/utils';
 
 import ModalForm from '../../ModalForm';
-
 import SessionService from '@/modules/session/infrastructure/session-service';
 
 const sessionService = new SessionService();
 
 export default function UserMenu() {
+  const router = Router;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const currentUser = useAppSelector(selectCurrentUser);
+
+  const { toggleColorMode, mode } = useColorMode()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [modalProfile, setModalProfile] = useState({
     isOpen: false,
     isEdit: false,
     title: "",
     description: ""
   });
-  const currentUser = useAppSelector(selectCurrentUser);
-
-  const router = Router;
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const open = Boolean(anchorEl);
 
@@ -65,6 +67,23 @@ export default function UserMenu() {
   const handleClose = () => {
     setAnchorEl(null);
     setDrawerOpen(false);
+  };
+
+  const handleShowProfile = () => {
+    console.log(currentUser);
+
+    setModalProfile({
+      isOpen: true,
+      isEdit: false,
+      title: "Perfil",
+      description: ""
+    });
+    handleClose();
+  };
+
+  const handleToggleTheme = () => {
+    toggleColorMode();
+    handleClose();
   };
 
   const handleLogout = () => {
@@ -88,19 +107,21 @@ export default function UserMenu() {
 
       <Divider />
 
-      <MenuItem onClick={handleClose} sx={{ px: 2 }}>
-        <ListItemIcon>
+      <MenuItem onClick={handleShowProfile} sx={{ px: 2 }}>
+        <ListItemIcon >
           <Person fontSize="small" color="action" />
         </ListItemIcon>
-        <Typography variant="body2" color="text.primary" onClick={() => {
-          setModalProfile({
-            isOpen: true,
-            isEdit: false,
-            title: "Perfil",
-            description: "Información del perfil"
-          })
-        }}>
+        <Typography variant="body2" color="text.primary">
           Perfil
+        </Typography>
+      </MenuItem>
+
+      <MenuItem onClick={handleToggleTheme} sx={{ px: 2 }}>
+        <ListItemIcon>
+          {mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+        </ListItemIcon>
+        <Typography variant="body2" color="text.primary">
+          {mode === 'light' ? 'Modo oscuro' : 'Modo claro'}
         </Typography>
       </MenuItem>
 
@@ -193,25 +214,80 @@ export default function UserMenu() {
         }}>
         {renderMenuContent()}
       </Drawer>
-
-
       <ModalForm
         title="Perfil"
-        data={{}}
+        readOnly
+        data={currentUser || {}}
         description="Este es tu perfil del usuario"
         isOpen={modalProfile.isOpen}
         onClose={() => setModalProfile({ isOpen: false, isEdit: false, title: "", description: "" })}
         onSubmit={() => { }}
         schema={[
           {
-            key: "ds_user",
+            key: "username",
             label: "Nombre de usuario",
-            disabled: true,
+          },
+          {
+            key: "email",
+            label: "Correo",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "role.roleName",
+            label: "Rol",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.names",
+            label: "Nombre",
+          },
+          {
+            key: "person.lastName",
+            label: "Apellido paterno",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.secondLastName",
+            label: "Apellido materno",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.birthdate",
+            label: "Fecha de nacimiento",
+            type: "date",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.cellphone",
+            label: "Celular",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.curp",
+            label: "CURP",
+            breakpoint: { xs: 6 }
+          },
+          {
+            key: "person.gender",
+            label: "Genero",
+            breakpoint: { xs: 6 }
           },
         ]
         }>
-
       </ModalForm>
     </Box >
   );
 }
+
+// "userId": 3,
+// "email": "jesushellerque@gmail.com",
+// "code": "333333",
+// "username": "MRHECTOR",
+// "status": "ACTIVO",
+// "createdAt": "2025-06-11T11:04:20.894Z",
+// "updatedAt": "2025-06-12T03:47:52.480Z",
+//   "roleId": 1,
+//   "roleName": "Administrador",
+//   "status": "ACTIVO",
+//   "createdAt": "2025-05-29T08:15:49.611Z",
+//   "updatedAt": "2025-05-29T08:15:49.611Z",

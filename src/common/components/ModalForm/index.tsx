@@ -32,6 +32,7 @@ export default function ModalForm({
   confirmText = 'Guardar',
   cancelText = 'Cerrar',
   loading = false,
+  readOnly = false,
   schema,
   data = {}
 }: ModalFormProps) {
@@ -61,7 +62,6 @@ export default function ModalForm({
       }
     });
   }
-
 
   const handleSubmit = useCallback(() => {
     let isValid = true;
@@ -96,9 +96,9 @@ export default function ModalForm({
 
       const evaluatedField: FieldSchema = {
         ...field,
-        disabled: typeof field.disabled === 'function'
+        disabled: readOnly || (typeof field.disabled === 'function'
           ? field.disabled(data)
-          : field.disabled
+          : field.disabled)
       };
 
       return (
@@ -111,7 +111,7 @@ export default function ModalForm({
         </Grid>
       );
     })
-  ), [visibleFields, data, handleFieldRef]);
+  ), [visibleFields, data, handleFieldRef, readOnly]);
 
   if (!isOpen) return null;
 
@@ -137,17 +137,20 @@ export default function ModalForm({
           label={cancelText}
           variant="outlined"
           onClick={onClose}
-          sx={{ flex: 1, padding: '0 38px' }}
+          sx={{ flex: 1, padding: readOnly ? '' : '0 38px' }}
           loading={loading}
         />
-        <SmartButton
-          label={confirmText}
-          variant="contained"
-          onClick={handleSubmit}
-          fullWidth
-          loading={loading}
-        />
+        {!readOnly && (
+          <SmartButton
+            label={confirmText}
+            variant="contained"
+            onClick={handleSubmit}
+            fullWidth
+            loading={loading}
+          />
+        )}
       </Stack>
     </Modal>
   );
 }
+

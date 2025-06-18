@@ -52,4 +52,5 @@ export interface ModalFormProps {
   loading?: boolean;
   schema: FieldSchema[];
   data?: Record<string, any>;
+  readOnly?: boolean;
 }

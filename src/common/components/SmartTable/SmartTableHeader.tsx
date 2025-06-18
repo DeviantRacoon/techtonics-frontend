@@ -57,7 +57,7 @@ const SmartTableHeader = ({
             <TableCell
               key={`${column.id}-header`}
               align={column.align}
-              sx={{ width, whiteSpace: 'nowrap', cursor: 'pointer' }}
+              sx={{ width, whiteSpace: 'nowrap', cursor: 'pointer', backgroundColor: 'background.table', border: 'none' }}
               onClick={() => onToggleSort(column.id)}>
               {column.headerRender ? (
                 column.headerRender()
@@ -76,7 +76,7 @@ const SmartTableHeader = ({
         })}
 
         {actions && (
-          <TableCell align="right">
+          <TableCell align="right" sx={{ border: 'none', backgroundColor: 'background.table' }}>
             <Typography fontWeight="bold" fontSize="0.875rem">Acciones</Typography>
           </TableCell>
         )}

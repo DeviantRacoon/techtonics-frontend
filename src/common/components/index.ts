@@ -11,5 +11,5 @@ import { ToastProvider } from "./ToastProvider";
 import ThemedIcon from "./ThemedIcon";
 
 
-export { SmartButton, SmartInput, SmartTable, Header, Modal, ConfirmModal, ModalForm, SmartSelect, ToastProvider, ThemedIcon };
+export { SmartButton, SmartInput, SmartTable, Header, Modal, ConfirmModal, ModalForm, SmartSelect, ToastProvider, ThemedIcon, SmartFileInput };
 export type { SmartInputRef };

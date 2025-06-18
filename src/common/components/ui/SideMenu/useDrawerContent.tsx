@@ -10,7 +10,10 @@ export function useDrawerContent() {
     const currentUser = getCurrentUser()
     if (!currentUser) return []
 
-    return modulesList.filter(item => currentUser?.allowedPermissions.includes(item.permission ?? '') || item.permission === 'dashboard')
+    const modules = modulesList.filter(item => !item.submenu && (currentUser?.allowedPermissions.includes(item.permission ?? '') || item.permission === 'dashboard'))
+    const subModules = modulesList.filter(item => item.submenu && item.submenu.some(sub => currentUser?.allowedPermissions.includes(sub.permission ?? '')))
+
+    return [...modules, ...subModules]
   }, [])
 
   return {

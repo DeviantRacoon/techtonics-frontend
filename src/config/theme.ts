@@ -1,4 +1,4 @@
-import { PaletteMode, createTheme } from '@mui/material'
+import { PaletteMode, createTheme, alpha } from '@mui/material';
 
 const commonTokens = {
   typography: {
@@ -19,93 +19,170 @@ const commonTokens = {
   spacing: 8,
   shadows: Array(25).fill('0px 2px 6px rgba(0, 0, 0, 0.06)') as string[],
   breakpoints: { values: { xs: 0, sm: 600, md: 960, lg: 1280, xl: 1536 } },
-}
+};
 
 export const createCustomTheme = (mode: PaletteMode) => {
   const palette = {
     mode,
     primary: {
-      main: '#1666ef',
-      light: '#5b9cfd',
-      dark: '#0f3e9c',
+      main: '#4A6CF7',
+      light: '#7C9EFF',
+      dark: '#2A4DB8',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#8e24aa',
-      light: '#c158dc',
-      dark: '#5a0074',
+      main: '#9B59B6',
+      light: '#C38BD4',
+      dark: '#6E2D91',
       contrastText: '#ffffff',
     },
-    error: { main: '#D32F2F', contrastText: '#ffffff' },
-    warning: { main: '#FFA000', contrastText: '#212121' },
-    info: { main: '#0288D1', contrastText: '#ffffff' },
-    success: { main: '#43A047', contrastText: '#ffffff' },
+    success: {
+      main: '#2ECC71',
+      dark: '#27AE60',
+      contrastText: '#ffffff',
+    },
+    warning: {
+      main: '#F39C12',
+      contrastText: '#212121',
+    },
+    error: {
+      main: '#E74C3C',
+      contrastText: '#ffffff',
+    },
+    info: {
+      main: '#3498DB',
+      contrastText: '#ffffff',
+    },
     ...(mode === 'light'
       ? {
-          background: { default: '#f5f7fd', paper: '#ffffff' },
-          text: { primary: '#101526', secondary: '#525a70', disabled: '#9AA1B2' },
-          divider: '#e2e5ec',
+          background: {
+            default: '#f4f6f9',
+            paper: '#ffffff',
+            table: '#f1f3f7',
+          },
+          text: {
+            primary: '#2C3E50',
+            secondary: '#5D6D7E',
+            disabled: '#AAB2BD',
+          },
+          divider: '#D6DBE9',
           grey: {
-            50: '#F9FAFB',
-            100: '#F3F4F6',
-            200: '#E5E7EB',
-            300: '#D1D5DB',
-            400: '#9CA3AF',
-            500: '#6B7280',
-            600: '#4B5563',
-            700: '#374151',
-            800: '#1F2937',
-            900: '#111827',
+            50: '#fdfdfe',
+            100: '#f0f2f7',
+            200: '#e1e4ec',
+            300: '#ccd2e2',
+            400: '#b0b9d0',
+            500: '#8a96af',
+            600: '#68748c',
+            700: '#4c566c',
+            800: '#343d4e',
+            900: '#1f2632',
           },
         }
       : {
-          background: { default: '#111827', paper: '#1f2937' },
-          text: { primary: '#e5eaf2', secondary: '#b3b8c4', disabled: '#6c7586' },
+          background: {
+            default: '#161A2D',
+            paper: '#1f2235',
+            table: '#23263A',
+          },
+          text: {
+            primary: '#EAECEF',
+            secondary: '#AAB2C3',
+            disabled: '#6F7890',
+          },
           divider: 'rgba(255,255,255,0.12)',
           grey: {
-            50: '#fafafa',
-            100: '#f5f5f5',
-            200: '#eeeeee',
-            300: '#e0e0e0',
-            400: '#bdbdbd',
-            500: '#9e9e9e',
-            600: '#757575',
-            700: '#616161',
-            800: '#424242',
-            900: '#212121',
+            50: '#e4e6f0',
+            100: '#cfd3e0',
+            200: '#b6bbca',
+            300: '#9da3b3',
+            400: '#858c9d',
+            500: '#6e7486',
+            600: '#595e6f',
+            700: '#444858',
+            800: '#2f3240',
+            900: '#1a1c2d',
           },
         }),
-  }
+  };
 
-  const base = createTheme({ palette, ...commonTokens })
+  const base = createTheme({ palette, ...commonTokens });
 
   return createTheme(base, {
     components: {
       MuiCssBaseline: {
         styleOverrides: {
-          body: { backgroundColor: base.palette.background.default },
+          body: {
+            backgroundColor: base.palette.background.default,
+            color: base.palette.text.primary,
+            transition: 'all 0.3s ease-in-out',
+          },
         },
-      },
-      MuiButton: {
-        styleOverrides: { root: { borderRadius: 8, fontWeight: 500 } },
-      },
-      MuiPaper: {
-        styleOverrides: { root: { borderRadius: 10 } },
       },
       MuiAppBar: {
         styleOverrides: {
           root: {
             backgroundColor: base.palette.background.paper,
             color: base.palette.text.primary,
-            boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+            boxShadow:
+              base.palette.mode === 'dark'
+                ? '0 1px 4px rgba(0,0,0,0.3)'
+                : '0 1px 4px rgba(0,0,0,0.08)',
           },
         },
       },
       MuiDrawer: {
         styleOverrides: {
-          paper: { backgroundColor: base.palette.background.paper },
+          paper: {
+            backgroundColor:
+              base.palette.mode === 'dark' ? '#1c1f32' : '#e9edf5',
+            color: base.palette.text.primary,
+            borderRight: 'none',
+          },
+        },
+      },
+      MuiTableHead: {
+        styleOverrides: {
+          root: {
+            backgroundColor:
+              base.palette.mode === 'dark' ? '#2b2f45' : '#e2e8f0',
+          },
+        },
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          hover: {
+            '&:hover': {
+              backgroundColor:
+                base.palette.mode === 'dark' ? '#2a2d45' : '#f0f4fa',
+            },
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            fontWeight: 500,
+            textTransform: 'none',
+            '&:hover': {
+              boxShadow: `0 2px 8px ${alpha(base.palette.primary.main, 0.2)}`,
+            },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            borderRadius: 12,
+            backgroundImage: 'none',
+            boxShadow:
+              base.palette.mode === 'dark'
+                ? '0px 4px 12px rgba(0,0,0,0.35)'
+                : '0px 4px 12px rgba(0,0,0,0.04)',
+          },
         },
       },
     },
-  })
-}
+  });
+};

@@ -24,6 +24,7 @@ import ThemedIcon from '../ThemedIcon'
 
 import DownloadIcon from '@mui/icons-material/Download'
 import ViewColumnIcon from '@mui/icons-material/ViewColumn'
+import TuneIcon from '@mui/icons-material/Tune';
 
 import { exportToCSV } from '@/common/utils/exportToCSV'
 import type { Column, Row } from '../SmartTable/types'
