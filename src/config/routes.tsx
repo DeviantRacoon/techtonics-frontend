@@ -35,7 +35,7 @@ export const modulesList: IMenuItem[] = [
         label: "Sesiones",
         link: "/sessions",
         description: "Listado de sesiones activas",
-        permission: "role_list",
+        permission: "session_list",
       },
     ]
   }

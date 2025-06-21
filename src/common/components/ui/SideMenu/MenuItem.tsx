@@ -40,7 +40,7 @@ export default function MenuItem({ item, pathname, expanded, openSubmenus, toggl
           {expanded ? (
             <>
               <ListItemText primary={item.label} />
-              <SubMenuArrow as={motion.span} animate={{ rotate: isOpen ? 180 : 0 }}>
+              <SubMenuArrow as={motion.div} animate={{ rotate: isOpen ? 0 : -90 }} transition={{ duration: 0.2, ease: 'easeInOut' }}>
                 <ExpandMore />
               </SubMenuArrow>
             </>

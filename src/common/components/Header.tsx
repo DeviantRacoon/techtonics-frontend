@@ -12,6 +12,7 @@ import {
   Link as MuiLink
 } from '@mui/material'
 
+
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 export interface SmartHeaderProps {

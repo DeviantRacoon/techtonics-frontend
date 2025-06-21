@@ -1,23 +1,44 @@
-import { alpha, styled } from '@mui/material/styles'
+import { styled, alpha, darken, lighten } from '@mui/material/styles';
 import { ListItemButton } from '@mui/material'
 import { motion } from 'framer-motion'
 
-export const SidebarContainer = styled(motion.aside)(({ theme }) => ({
-  height: '100vh',
-  position: 'fixed',
-  left: 0,
-  width: 72,
-  background:
-    theme.palette.mode === 'dark'
-      ? `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.grey[800]} 100%)`
-      : `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.grey[50]} 100%)`,
-  backdropFilter: 'blur(16px)',
-  boxShadow: '4px 0 24px rgba(0,0,0,0.08)',
-  borderRight: `1px solid ${theme.palette.divider}`,
-  zIndex: 1101,
-  overflowX: 'hidden',
-  transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
-}));
+export const SidebarContainer = styled(motion.aside)(({ theme }) => {
+  const isDark = theme.palette.mode === 'dark';
+
+  const baseColor = theme.palette.background.default;
+  const lighter = darken(baseColor, 0.3);
+
+  return {
+    height: '100vh',
+    position: 'fixed',
+    left: 0,
+    width: 72,
+    display: 'flex',
+    flexDirection: 'column',
+    background: isDark
+      ? `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.grey[900]} 100%)`
+      : `${theme.palette.background.paper}`,
+    backdropFilter: 'blur(20px)',
+    boxShadow: `4px 0 24px ${alpha(baseColor, 0.08)},
+                0 2px 4px ${alpha(baseColor, 0.12)},
+                0 4px 8px ${alpha(baseColor, 0.16)}`,
+
+    borderRight: `1px solid ${alpha(baseColor, isDark ? 0.12 : 0.2)}`,
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: 1,
+      height: '100%',
+      pointerEvents: 'none',
+    },
+
+    zIndex: 1101,
+    overflowX: 'hidden',
+    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+  };
+});
 
 export const NavLinkStyled = styled(ListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -48,7 +69,6 @@ export const NavLinkStyled = styled(ListItemButton)(({ theme }) => ({
         : alpha(theme.palette.primary.main, 0.06),
     transform: 'translateX(4px)',
     color: theme.palette.text.primary,
-    boxShadow: theme.shadows[1],
   },
 
   '&.active': {
@@ -58,14 +78,22 @@ export const NavLinkStyled = styled(ListItemButton)(({ theme }) => ({
     '&::before': {
       backgroundColor: theme.palette.primary.main,
     },
-    boxShadow: theme.shadows[2],
   },
 }));
 
-export const SubMenuArrow = styled(motion.span)(({ theme }) => ({
+export const SubMenuArrow = styled(motion.div)(({ theme }) => ({
   marginLeft: 'auto',
-  fontSize: '1rem',
+  fontSize: '1.25rem',
   color: theme.palette.text.secondary,
-  transition: 'transform 0.25s ease',
-}));
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 32,
+  height: 32,
+  borderRadius: theme.shape.borderRadius,
+  transition: 'background-color 0.2s ease',
 
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));

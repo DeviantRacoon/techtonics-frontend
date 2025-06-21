@@ -99,9 +99,10 @@ export default function UserMenu() {
       <Box px={1.5} py={1}>
         <Typography variant="subtitle2" color="text.primary" fontWeight={700}>
           {currentUser?.username}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          Usuario activo
+          <Typography variant="caption" color="text.secondary">
+            <br />
+            {currentUser?.role.roleName}
+          </Typography>
         </Typography>
       </Box>
 

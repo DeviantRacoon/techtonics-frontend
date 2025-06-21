@@ -47,8 +47,7 @@ export default function DrawerContent() {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         animate={{ width: hovered ? 230 : 68 }}
-        transition={{ duration: 0.3 }}
-      >
+        transition={{ duration: 0.3 }}>
         <SidebarLogo expanded={hovered} />
 
         <Box sx={{ px: 1 }}>

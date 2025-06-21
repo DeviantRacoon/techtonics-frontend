@@ -1,12 +1,7 @@
 'use client'
 
 import Head from 'next/head'
-import { Box, Container, Typography, Button, Stack, Paper } from '@mui/material'
-import Grid from '@mui/material/GridLegacy'
-import RocketIcon from '@mui/icons-material/Rocket'
-import SecurityIcon from '@mui/icons-material/Security'
-import SpeedIcon from '@mui/icons-material/Speed'
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
+import { Box, Container, Typography, Button, Stack } from '@mui/material'
 
 import Link from 'next/link'
 import Image from 'next/image'

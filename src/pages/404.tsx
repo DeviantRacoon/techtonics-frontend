@@ -2,15 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import { Container, Typography, Box, Stack } from "@mui/material";
-import { motion } from "framer-motion";
+import { Container, Typography, Stack, useTheme } from "@mui/material";
 
 const SmartButton = dynamic(() => import("@/common/components/SmartButton"), { ssr: false });
 
 export default function Custom404() {
+  const theme = useTheme();
+
   return (
     <Container component={"main"} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      
       <Image
         src="/assets/img/404.png"
         alt="Ilustración de error 404"
@@ -20,7 +20,7 @@ export default function Custom404() {
         priority
       />
 
-      <Typography variant="h3" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" fontWeight={700} lineHeight={1.2}>
         ¡Oh no! Esta página no fue encontrada
       </Typography>
       <Typography variant="body1" color="text.secondary" mb={4}>
@@ -33,6 +33,7 @@ export default function Custom404() {
             label="Volver al inicio"
             variant="contained"
             size="large"
+            sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}
           />
         </Link>
         <Typography variant="body2" color="text.secondary">
@@ -42,3 +43,4 @@ export default function Custom404() {
     </Container>
   );
 }
+
