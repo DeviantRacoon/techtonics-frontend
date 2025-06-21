@@ -55,7 +55,7 @@ export default function DrawerContent() {
           <List>
             {menuItems.map((item) => (
               <MenuItem
-                key={item.label}
+                key={item.link ?? item.label}
                 item={item}
                 pathname={pathname}
                 expanded={hovered}

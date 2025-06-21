@@ -53,8 +53,8 @@ export default function DashboardPage() {
       />
 
       <Grid container spacing={2} mb={4}>
-        {stats.map((stat, idx) => (
-          <Grid item xs={12} sm={6} md={3} key={idx}>
+        {stats.map((stat) => (
+          <Grid item xs={12} sm={6} md={3} key={stat.title}>
             <Paper
               elevation={3}
               sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>

@@ -146,7 +146,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
                 <Box component="ul" sx={{ m: 0 }}>
                   {message?.errors?.map((item, index) => (
                     <Typography
-                      key={index}
+                      key={`${index}-${item}`}
                       component="li"
                       variant="caption"
                       fontWeight={200}

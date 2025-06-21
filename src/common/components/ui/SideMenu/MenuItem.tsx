@@ -55,7 +55,7 @@ export default function MenuItem({ item, pathname, expanded, openSubmenus, toggl
           <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
             <List disablePadding>
               {item.submenu.map((sub) => (
-                <Link key={sub.label} href={sub.link} passHref legacyBehavior>
+                <Link key={sub.link} href={sub.link} passHref legacyBehavior>
                   <NavLinkStyled className={isActive(sub.link) ? 'active' : ''}>
                     {expanded && <ListItemText primary={sub.label} />}
                   </NavLinkStyled>
