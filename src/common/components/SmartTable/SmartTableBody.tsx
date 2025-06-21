@@ -144,15 +144,15 @@ const SmartTableBody = ({
 
   return (
     <TableBody sx={{ '&:last-child td, &:last-child th': { border: 0, paddingY: 1.5 } }}>
-      {rows.map((row) => (
-        <TableRow key={row.id} hover selected={selected.has(row.id)}>
-          {columns.map((column) => {
+      {rows.map((row, rowIdx) => (
+        <TableRow key={`${row.id}-${rowIdx}`} hover selected={selected.has(row.id)}>
+          {columns.map((column, colIdx) => {
             const raw = getValueFromPath(row, column.id)
             const content = renderDefaultCell(column, raw, row)
 
             return (
               <TableCell
-                key={`${row.id}-${column.id}`}
+                key={`${row.id}-${column.id}-${rowIdx}-${colIdx}`}
                 align={column.align}
                 onClick={() => onClick?.(row)}
                 sx={{ cursor: 'pointer' }}>
@@ -166,7 +166,7 @@ const SmartTableBody = ({
           })}
 
           {actions && (
-            <TableCell key={`${row.id}-actions`} align="right" sx={{ cursor: 'pointer' }}>
+            <TableCell key={`${row.id}-actions-${rowIdx}`} align="right" sx={{ cursor: 'pointer' }}>
               <Tooltip title="Más opciones" placement="bottom">
                 <IconButton onClick={(e) => handleMenuClick(e, row)} size="small">
                   <MoreVertIcon fontSize="small" />
@@ -179,7 +179,7 @@ const SmartTableBody = ({
 
       {!!actions?.length && menuState && (
         <Menu anchorEl={menuState.anchorEl} open onClose={handleMenuClose}>
-          {actions.map((action) => {
+          {actions.map((action, actIdx) => {
             const isHidden = typeof action.hidden === 'function'
               ? action.hidden(menuState.row)
               : action.hidden;
@@ -188,7 +188,7 @@ const SmartTableBody = ({
 
             return (
               <MenuItem
-                key={`${menuState.row.id}-${action.label}`}
+                key={`${menuState.row.id}-${action.label}-${actIdx}`}
                 onClick={() => clickMenuItem(action)}
                 sx={{ cursor: 'pointer', gap: 1, display: 'flex' }}
               >
