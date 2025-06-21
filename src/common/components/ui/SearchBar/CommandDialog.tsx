@@ -160,7 +160,7 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
         <List dense disablePadding>
           {filteredItems.map((item, idx) => (
             <ListItem
-              key={idx}
+              key={item.link}
               component={'li'}
               onMouseEnter={() => setHighlightedIndex(idx)}
               onClick={() => handleNavigate(item.link)}

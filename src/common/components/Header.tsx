@@ -85,13 +85,13 @@ export default function Header({
               aria-label="breadcrumb"
               sx={{ mt: 2 }}
             >
-              {breadcrumbs.map((crumb, index) => (
+              {breadcrumbs.map((crumb) => (
                 crumb.href ? (
-                  <MuiLink key={index} href={crumb.href} underline="hover" color="inherit">
+                  <MuiLink key={crumb.href} href={crumb.href} underline="hover" color="inherit">
                     {crumb.label}
                   </MuiLink>
                 ) : (
-                  <Typography key={index} color="text.primary">
+                  <Typography key={crumb.label} color="text.primary">
                     {crumb.label}
                   </Typography>
                 )
