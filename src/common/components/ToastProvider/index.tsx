@@ -140,7 +140,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
                 </AnimatePresence>
               </Box>
 
-              <Typography variant="body2" fontWeight={500} flex={1}>
+              <Typography component="div" variant="body2" fontWeight={500} flex={1}>
                 {message.title}
                 <br />
                 <Box component="ul" sx={{ m: 0 }}>
