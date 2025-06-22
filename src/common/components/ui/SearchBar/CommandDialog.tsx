@@ -21,7 +21,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { useRouter } from 'next/navigation'
 import { modulesList } from '@/config/routes'
 import { getCurrentUser } from '@/common/utils'
-import { IMenuItem } from '@/common/models'
+import { IMenuItem } from '@/common/models'r
 
 interface CommandDialogProps {
   open: boolean

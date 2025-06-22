@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 
 import { IMenuItem } from '@/common/models'
 import { modulesList } from '@/config/routes'
-import { getCurrentUser } from '@/common/utils'
 
 export function useDrawerContent() {
   const offline = process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true'
   const menuItems: IMenuItem[] = useMemo(() => {
+
     if (offline) return modulesList
 
     const currentUser = getCurrentUser()
