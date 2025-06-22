@@ -20,6 +20,8 @@ import { alpha } from '@mui/material/styles'
 import SearchIcon from '@mui/icons-material/Search'
 import { useRouter } from 'next/navigation'
 import { modulesList } from '@/config/routes'
+import { getCurrentUser } from '@/common/utils'
+import { IMenuItem } from '@/common/models'r
 
 interface CommandDialogProps {
   open: boolean
@@ -39,9 +41,33 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
   const [query, setQuery] = useState('')
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
 
+  const offline = process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true'
+
   const userModules = useMemo(() => {
-    return modulesList
-  }, [])
+    if (offline) return modulesList
+
+    const currentUser = getCurrentUser()
+    if (!currentUser) return []
+
+    const hasPermission = (perm?: string) =>
+      currentUser.allowedPermissions.includes(perm ?? '')
+
+    const modules = modulesList.filter(
+      (item) =>
+        !item.submenu &&
+        (hasPermission(item.permission) || item.permission === 'dashboard')
+    )
+
+    const subModules = modulesList
+      .filter((item) => Array.isArray(item.submenu))
+      .map((item) => {
+        const filtered = item.submenu!.filter((sub) => hasPermission(sub.permission))
+        return filtered.length > 0 ? { ...item, submenu: filtered } : null
+      })
+      .filter(Boolean) as IMenuItem[]
+
+    return [...modules, ...subModules]
+  }, [offline])
 
   const flatMenu: FlatMenuItem[] = useMemo(() => {
     const items: FlatMenuItem[] = []

@@ -38,6 +38,11 @@ export function clearCurrentUser() {
   setCookie("sessionToken", "", { maxAge: 0 });
 };
 
-export function getAllowedActions(_method: string): boolean {
-  return true;
+export function getAllowedActions(method: string): boolean {
+  if (process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true') {
+    return true;
+  }
+  if (!getCurrentUser()) return false;
+  const { allowedPermissions } = getCurrentUser()!;
+  return !!allowedPermissions.includes(method);
 };
