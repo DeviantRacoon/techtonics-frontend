@@ -8,7 +8,10 @@ import axios, {
 import { getCurrentUser } from '../utils';
 import { handleSessionExpired } from '@/common/utils';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true'
+    ? '/api/mock'
+    : process.env.NEXT_PUBLIC_API_URL || '';
 
 export interface RequestOptions {
   params?: Record<string, any>;
