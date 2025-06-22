@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { IMenuItem } from '@/common/models'
+import { getCurrentUser } from '@/common/utils'
 import { modulesList } from '@/config/routes'
 
 export function useDrawerContent() {

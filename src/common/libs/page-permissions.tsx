@@ -1,14 +1,16 @@
 'use client';
 
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/config/store'; 
+import Router from 'next/router';
 
 export default function withPermissionGuard<P extends JSX.IntrinsicAttributes>(
   WrappedComponent: React.ComponentType<P>,
   requiredPermission: string
 ) {
   const GuardedComponent = (props: P) => {
+    const router = Router;
     const user = useSelector((state: RootState) => state.auth.currentUser);
     const [authorized, setAuthorized] = useState(false);
 
