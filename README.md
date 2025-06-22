@@ -34,10 +34,7 @@ npm run dev
 ```
 
 La aplicación quedará disponible en `http://localhost:3000` por defecto.
-
 ### Uso de Bun (opcional)
-
-Los comandos con `npm` siguen funcionando y son la opción por defecto, pero si prefieres Bun puedes usarlo de la siguiente manera:
 
 1. Instala Bun ejecutando:
 ```bash
@@ -53,14 +50,6 @@ bun run dev:bun     # entorno de desarrollo
 bun run build:bun   # compilación
 bun run start:bun   # producción
 ```
-
-Si deseas construir la imagen con Bun puedes usar el fichero `Dockerfile.bun`:
-
-```bash
-docker build -f Dockerfile.bun -t myapp-bun .
-```
-
-La ejecución se realiza igual que con Node, exponiendo el puerto 3000.
 
 
 ## Comandos disponibles
