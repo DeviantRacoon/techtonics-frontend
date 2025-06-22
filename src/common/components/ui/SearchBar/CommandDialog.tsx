@@ -20,7 +20,6 @@ import { alpha } from '@mui/material/styles'
 import SearchIcon from '@mui/icons-material/Search'
 import { useRouter } from 'next/navigation'
 import { modulesList } from '@/config/routes'
-import { getCurrentUser } from '@/common/utils'
 
 interface CommandDialogProps {
   open: boolean
@@ -40,32 +39,9 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
   const [query, setQuery] = useState('')
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
 
-  const currentUser = getCurrentUser()
-
   const userModules = useMemo(() => {
-    const currentUser = getCurrentUser()
-    if (!currentUser) return []
-
-    const hasPermission = (perm?: string) =>
-      currentUser.allowedPermissions.includes(perm ?? '')
-
-    const modules = modulesList.filter(item =>
-      !item.submenu &&
-      (hasPermission(item.permission) || item.permission === 'dashboard')
-    )
-
-    const subModules = modulesList
-      .filter(item => Array.isArray(item.submenu))
-      .map(item => {
-        const filteredSubmenu = item.submenu!.filter(sub => hasPermission(sub.permission))
-        return filteredSubmenu.length > 0
-          ? { ...item, submenu: filteredSubmenu }
-          : null
-      })
-      .filter(Boolean)
-
-    return [...modules, ...subModules]
-  }, [currentUser])
+    return modulesList
+  }, [])
 
   const flatMenu: FlatMenuItem[] = useMemo(() => {
     const items: FlatMenuItem[] = []
