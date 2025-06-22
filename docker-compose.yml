@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runner  # Use 'runner-system' to leverage system node packages
     container_name: nextjs-app
     ports:
       - "4020:3000"
