@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "dev:bun": "bun run next dev",
-    "build:bun": "bun run next build",
+    "build:bun": "NEXT_TELEMETRY_DISABLED=1 bun run next build",
     "start:bun": "bun run next start"
   },
   "dependencies": {
