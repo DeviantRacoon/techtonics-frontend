@@ -1,14 +1,10 @@
-'use client'
+'use client';
 
-import React, {
-  useRef,
-  useCallback,
-  useMemo
-} from 'react';
+import React, { useRef, useCallback, useMemo, useState } from 'react';
 import {
   Typography,
   Divider,
-  Stack
+  Stack,
 } from '@mui/material';
 
 import Grid from '@mui/material/GridLegacy';
@@ -38,6 +34,8 @@ export default function ModalForm({
 }: ModalFormProps) {
   const refs = useRef<Record<string, SmartInputRef | SmartSelectRef | SmartFileInputRef>>({});
 
+  const [formValues, setFormValues] = useState<Record<string, any>>(data);
+
   const handleFieldRef = useCallback(
     (key: string, ref: any) => {
       if (ref) refs.current[key] = ref;
@@ -46,8 +44,8 @@ export default function ModalForm({
   );
 
   function getValueFromPath(obj: Record<string, any>, path: string): any {
-    return path.split('.').reduce((acc, part) => acc?.[part], obj)
-  };
+    return path.split('.').reduce((acc, part) => acc?.[part], obj);
+  }
 
   function setValueToPath(obj: Record<string, any>, path: string, value: any) {
     const parts = path.split('.');
@@ -63,16 +61,37 @@ export default function ModalForm({
     });
   }
 
+  const handleChange = useCallback(
+    (key: string, value: any) => {
+      setFormValues((prev) => {
+        const updated = { ...prev };
+        setValueToPath(updated, key, value);
+
+        const fieldSchema = schema.find((f) => f.key === key);
+        if (fieldSchema?.onChange) {
+          try {
+            fieldSchema.onChange(updated, value);
+          } catch (e) {
+            console.warn(`Error en onChange de ${key}`, e);
+          }
+        }
+
+        return updated;
+      });
+    },
+    [schema]
+  );
+
   const handleSubmit = useCallback(() => {
     let isValid = true;
     const values: Record<string, any> = {};
 
     for (const key of Object.keys(refs.current)) {
       const fieldRef = refs.current[key];
-      const valid = fieldRef?.validate();
+      const valid = fieldRef?.validate?.();
       if (!valid) isValid = false;
 
-      const value = fieldRef?.getValue();
+      const value = fieldRef?.getValue?.();
       setValueToPath(values, key, value);
     }
 
@@ -84,11 +103,11 @@ export default function ModalForm({
   const visibleFields = useMemo(() => (
     schema.filter((field) => {
       if (typeof field.hidden === 'function') {
-        return !field.hidden(data);
+        return !field.hidden(formValues);
       }
       return !field.hidden;
     })
-  ), [schema, data]);
+  ), [schema, formValues]);
 
   const gridFields = useMemo(() => (
     visibleFields.map((field: FieldSchema) => {
@@ -97,21 +116,23 @@ export default function ModalForm({
       const evaluatedField: FieldSchema = {
         ...field,
         disabled: readOnly || (typeof field.disabled === 'function'
-          ? field.disabled(data)
-          : field.disabled)
+          ? field.disabled(formValues)
+          : field.disabled),
+        onChange: (value: any) => handleChange(field.key, value),
       };
 
       return (
-        <Grid item {...breakpoint} key={field.key}>
+        <Grid item {...breakpoint} key={`${field.key}-${getValueFromPath(formValues, field.key) ?? ''}`}>
           <FieldRenderer
             field={evaluatedField}
-            defaultValue={getValueFromPath(data, field.key) ?? ''}
+            defaultValue={getValueFromPath(formValues, field.key) ?? ''}
             onRef={(ref) => handleFieldRef(field.key, ref)}
           />
         </Grid>
       );
+
     })
-  ), [visibleFields, data, handleFieldRef, readOnly]);
+  ), [visibleFields, formValues, handleFieldRef, readOnly]);
 
   if (!isOpen) return null;
 
@@ -153,4 +174,3 @@ export default function ModalForm({
     </Modal>
   );
 }
-

@@ -4,16 +4,16 @@ export interface FieldSchema {
   key: string;
   label: string;
   type?:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'number'
-    | 'tel'
-    | 'textarea'
-    | 'checkbox'
-    | 'select'
-    | 'file'
-    | 'date';
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "tel"
+    | "textarea"
+    | "checkbox"
+    | "select"
+    | "file"
+    | "date";
   placeholder?: string;
   required?: boolean;
   minLength?: number;
@@ -38,7 +38,7 @@ export interface FieldSchema {
   };
   hidden?: boolean | ((formValues: Record<string, any>) => boolean);
   disabled?: boolean | ((formValues: Record<string, any>) => boolean);
-  onChange?: (value: any) => void;
+  onChange?: (formValues: any, newValue: any) => void;
 }
 
 export interface ModalFormProps {

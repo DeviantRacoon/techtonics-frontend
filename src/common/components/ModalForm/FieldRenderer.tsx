@@ -50,7 +50,7 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
         placeholder={placeholder}
         options={options}
         defaultValue={defaultValue}
-        onChange={onChange}
+        onChange={onChange as any}
         disabled={!!disabled}
         size="small"
         fullWidth
@@ -69,7 +69,7 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
         disabled={!!disabled}
         multiple={multiple}
         defaultValue={defaultValue}
-        onChange={onChange}
+        onChange={onChange as any}
       />
     );
   }
@@ -81,7 +81,7 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
         label={label}
         required={required}
         defaultValue={defaultValue}
-        onChange={onChange}
+        onChange={onChange as any}
         disabled={!!disabled}
         fullWidth
       />
@@ -98,7 +98,7 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
       placeholder={placeholder}
       required={required}
       defaultValue={defaultValue}
-      onChange={onChange}
+      onChange={onChange as any}
       minLength={minLength}
       maxLength={maxLength}
       disabled={!!disabled}
