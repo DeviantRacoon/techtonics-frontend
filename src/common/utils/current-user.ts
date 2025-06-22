@@ -39,6 +39,9 @@ export function clearCurrentUser() {
 };
 
 export function getAllowedActions(method: string): boolean {
+  if (process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true') {
+    return true;
+  }
   if (!getCurrentUser()) return false;
   const { allowedPermissions } = getCurrentUser()!;
   return !!allowedPermissions.includes(method);

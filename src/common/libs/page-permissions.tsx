@@ -14,20 +14,23 @@ export default function withPermissionGuard<P extends JSX.IntrinsicAttributes>(
     const user = useSelector((state: RootState) => state.auth.currentUser);
     const [authorized, setAuthorized] = useState(false);
 
+    const offline = process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true';
+
     const hasPermission = useMemo(() => {
+      if (offline) return true;
       return !!user?.allowedPermissions?.includes(requiredPermission);
-    }, [user, requiredPermission]);
+    }, [user, requiredPermission, offline]);
 
     useEffect(() => {
       if (!user) return;
 
       if (!hasPermission) {
-        router.replace('/404'); 
+        router.replace('/404');
         setAuthorized(false);
       } else {
         setAuthorized(true);
       }
-    }, [hasPermission, user]);
+    }, [hasPermission, user, router]);
 
     if (!authorized) return null;
 

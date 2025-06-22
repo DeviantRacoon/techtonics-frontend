@@ -31,6 +31,8 @@ Cada módulo dentro de `src/modules` sigue un pequeño esquema en capas (`domain
 
 ```bash
 npm run dev
+# o bien
+npm run dev:offline
 ```
 
 La aplicación quedará disponible en `http://localhost:3000` por defecto.
@@ -38,6 +40,7 @@ La aplicación quedará disponible en `http://localhost:3000` por defecto.
 ## Comandos disponibles
 
 - `npm run dev` &mdash; Levanta el servidor de desarrollo con Turbopack.
+- `npm run dev:offline` &mdash; Ejecuta el modo sin API usando datos de ejemplo.
 - `npm run build` &mdash; Genera la versión optimizada para producción.
 - `npm run start` &mdash; Ejecuta la app ya compilada.
 - `npm run lint` &mdash; Revisa la calidad del código con ESLint.
