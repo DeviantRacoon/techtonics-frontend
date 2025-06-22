@@ -34,6 +34,23 @@ npm run dev
 ```
 
 La aplicación quedará disponible en `http://localhost:3000` por defecto.
+### Uso de Bun (opcional)
+
+1. Instala Bun ejecutando:
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+2. Instala dependencias con:
+```bash
+bun install
+```
+3. Usa los scripts equivalentes:
+```bash
+bun run dev:bun     # entorno de desarrollo
+bun run build:bun   # compilación
+bun run start:bun   # producción
+```
+
 
 ## Comandos disponibles
 
@@ -41,6 +58,9 @@ La aplicación quedará disponible en `http://localhost:3000` por defecto.
 - `npm run build` &mdash; Genera la versión optimizada para producción.
 - `npm run start` &mdash; Ejecuta la app ya compilada.
 - `npm run lint` &mdash; Revisa la calidad del código con ESLint.
+- `bun run dev:bun` &mdash; Levanta el servidor con Bun.
+- `bun run build:bun` &mdash; Compila usando Bun.
+- `bun run start:bun` &mdash; Ejecuta la app con Bun.
 
 ## Documentación adicional
 
