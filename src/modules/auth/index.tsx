@@ -92,6 +92,7 @@ export default function AuthModule() {
           name="email"
           leftIcon={<ThemedIcon src="/assets/svg/person-circle-outline.svg" alt="correo" width={20} />}
           size="small"
+          autoComplete="on"
         />
 
         <SmartInput
@@ -103,6 +104,7 @@ export default function AuthModule() {
           type="password"
           leftIcon={<ThemedIcon src="/assets/svg/lock-closed-outline.svg" alt="contraseña" width={20} />}
           size="small"
+          autoComplete="on"
         />
 
         <SmartButton

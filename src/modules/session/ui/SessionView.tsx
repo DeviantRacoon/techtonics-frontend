@@ -52,13 +52,13 @@ export function SessionView() {
         actions={[
           {
             label: "Ban",
-            hidden: !getAllowedActions("user_edit"),
+            hidden: !getAllowedActions("session_edit"),
             icon: <ThemedIcon src="/assets/svg/ban-outline.svg" alt="active" width={20} />,
             onClick: handleBan
           },
           {
             label: "Eliminar",
-            hidden: !getAllowedActions("user_edit"),
+            hidden: !getAllowedActions("session_edit"),
             icon: <ThemedIcon src="/assets/svg/trash-outline.svg" alt="delete" width={20} />,
             onClick: handleDelete
           },

@@ -150,6 +150,8 @@ export default function UserMenu() {
 
   return (
     <Box display="flex" alignItems="center">
+
+      {/* Mobile menu icon */}
       <Tooltip title="Opciones de usuario" arrow>
         <IconButton
           onClick={handleOpen}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useCallback, useMemo, useState } from 'react';
+import React, { useRef, useCallback, useMemo, useState, useEffect } from 'react';
 import {
   Typography,
   Divider,
@@ -33,8 +33,13 @@ export default function ModalForm({
   data = {}
 }: ModalFormProps) {
   const refs = useRef<Record<string, SmartInputRef | SmartSelectRef | SmartFileInputRef>>({});
-
   const [formValues, setFormValues] = useState<Record<string, any>>(data);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormValues(data);
+    }
+  }, [isOpen, data]);
 
   const handleFieldRef = useCallback(
     (key: string, ref: any) => {
@@ -122,7 +127,7 @@ export default function ModalForm({
       };
 
       return (
-        <Grid item {...breakpoint} key={`${field.key}-${getValueFromPath(formValues, field.key) ?? ''}`}>
+        <Grid item {...breakpoint} key={field.key}>
           <FieldRenderer
             field={evaluatedField}
             defaultValue={getValueFromPath(formValues, field.key) ?? ''}
@@ -132,7 +137,7 @@ export default function ModalForm({
       );
 
     })
-  ), [visibleFields, formValues, handleFieldRef, readOnly]);
+  ), [visibleFields, formValues, handleFieldRef, readOnly, handleChange]);
 
   if (!isOpen) return null;
 

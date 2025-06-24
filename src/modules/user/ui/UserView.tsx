@@ -132,6 +132,14 @@ export function UserView() {
             required: !showFormModal.isEdit,
           },
           {
+            key: "password",
+            label: "Contraseña",
+            type: "password",
+            minLength: showFormModal.isEdit ? 0 : 8,
+            pattern: showFormModal.isEdit ? undefined : { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: "La contraseña debe tener al menos 8 caracteres, una letra y un número." },
+            required: !showFormModal.isEdit,
+          },
+          {
             key: "person.curp",
             label: "CURP",
             required: true,
@@ -197,14 +205,6 @@ export function UserView() {
             label: "Rol",
             type: "select",
             options: catalogs.profiles,
-          },
-          {
-            key: "password",
-            label: "Contraseña",
-            type: "password",
-            minLength: showFormModal.isEdit ? 0 : 8,
-            pattern: showFormModal.isEdit ? undefined : { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: "La contraseña debe tener al menos 8 caracteres, una letra y un número." },
-            required: !showFormModal.isEdit,
           },
         ]}
       />

@@ -39,6 +39,7 @@ interface SmartInputProps {
   maxLength?: number;
   pattern?: { message?: string; value: RegExp };
   disabled?: boolean;
+  autoComplete?: 'on' | 'off';
 }
 
 const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((props, ref) => {
@@ -58,7 +59,8 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
     label,
     className,
     leftIcon,
-    disabled = false
+    disabled = false,
+    autoComplete = 'off'
   } = props;
 
   const autoId = useId();
@@ -130,14 +132,13 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
     <Box sx={{ position: 'relative' }} className={className}>
       <TextField
         id={generatedId}
-        name={name}
+        name={name || `${generatedId}-no-autofill`}
         required={required}
         label={label}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
-        autoComplete="off"
         onFocus={() => setTouched(true)}
         type={isPassword ? (showPassword ? 'text' : 'password') : type}
         size={size === 'large' ? 'medium' : size}
@@ -145,12 +146,18 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
         minRows={isTextArea ? 3 : undefined}
         maxRows={isTextArea ? 8 : undefined}
         error={!!error && touched}
-        inputProps={inputValidationProps}
+        inputProps={{
+          ...inputValidationProps,
+          autoComplete,
+          name: name || `${generatedId}-no-autofill`,
+        }}
         fullWidth={fullWidth}
         variant="outlined"
+        autoComplete={autoComplete}
         helperText={touched && error ? error : ''}
         InputLabelProps={{
           sx: { color: 'text.secondary' },
+          shrink: true,
         }}
         InputProps={{
           startAdornment: leftIcon ? (
@@ -176,6 +183,7 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
         disabled={disabled}
       />
 
+
       {inputValidationProps.maxLength && (
         <Typography
           variant="caption"
@@ -196,4 +204,3 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
 SmartInputComponent.displayName = 'SmartInput';
 
 export default SmartInputComponent;
-

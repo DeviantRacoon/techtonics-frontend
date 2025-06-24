@@ -32,6 +32,12 @@ export const modulesList: IMenuItem[] = [
         permission: "role_list",
       },
       {
+        label: "Unidades de Negocio",
+        link: "/business-units",
+        description: "Configuración de unidades de negocio",
+        permission: "role_list",
+      },
+      {
         label: "Sesiones",
         link: "/sessions",
         description: "Listado de sesiones activas",

@@ -1,72 +1,117 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 
-import { useAppDispatch } from '@/common/hooks/useAppDispatch';
-import { clearCurrentUser } from '@/common/store';
+import { getCookie, deleteCookie, setCookie } from "../libs/cookies-services";
 
-import { getCookie, deleteCookie } from '../libs/cookies-services';
+import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+import { clearCurrentUser } from "@/common/store";
+// import { refreshToken } from "@/modules/auth/auth.services";
 
-const WARNING_THRESHOLD_MS = 15_000;
+const WARNING_THRESHOLD_MS = 30_000;
 
 export function useSessionExpiration() {
+  const token = getCookie("sessionToken");
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [isRenewalModalOpen, setRenewalModalOpen] = useState(false);
+  const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
 
-  useEffect(() => {
-    const token = getCookie('sessionToken');
-    const expiresAtStr = getCookie('sessionExpiresAt');
+  const [expiresAt, setExpiresAt] = useState<number>(() => {
+    const cookie = getCookie("sessionExpiresAt");
+    return cookie ? parseInt(cookie, 10) : 0;
+  });
 
-    if (!token || !expiresAtStr) return;
+  const handleSessionExpired = useCallback(() => {
+    deleteCookie("sessionToken");
+    deleteCookie("sessionExpiresAt");
+    dispatch(clearCurrentUser());
+    router.push("/auth");
+  }, []);
 
-    const expiresAt = parseInt(expiresAtStr, 10);
+  const clearWatcher = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    if (warningTimeoutRef.current) {
+      clearTimeout(warningTimeoutRef.current);
+      warningTimeoutRef.current = null;
+    }
+  };
+
+  const setupWatcher = useCallback((nextExpiresAt: number) => {
+    if (!nextExpiresAt || isNaN(nextExpiresAt)) return;
+
     const now = Date.now();
-    const remaining = expiresAt - now;
+    const delay = nextExpiresAt - now - WARNING_THRESHOLD_MS;
 
-    if (remaining <= 0) {
-      handleSessionExpired();
+    clearWatcher();
+
+    if (delay <= 0) {
+      setIsRenewalModalOpen(true);
+
+      warningTimeoutRef.current = setTimeout(() => {
+        handleSessionExpired();
+      }, WARNING_THRESHOLD_MS);
+
       return;
     }
 
-    const warnDelay = remaining - WARNING_THRESHOLD_MS;
+    timeoutRef.current = setTimeout(() => {
+      setIsRenewalModalOpen(true);
 
-    if (warnDelay > 0) {
-      setTimeout(() => {
-        setRenewalModalOpen(true);
-      }, warnDelay);
-    } else {
-      setRenewalModalOpen(true);
-    }
+      warningTimeoutRef.current = setTimeout(() => {
+        handleSessionExpired();
+      }, WARNING_THRESHOLD_MS);
+    }, delay);
+  }, []);
 
-    const logoutTimer = setTimeout(() => {
+  const onRenew = useCallback(async () => {
+    try {
+      // const {
+      //   response: { expiration },
+      //   error,
+      // }: any = await refreshToken(getCookie("sessionToken")!);
+
+      // if (error) {
+      //   handleSessionExpired();
+      //   return;
+      // }
+
+      // const newExpiresAt = Date.now() + expiration * 1000;
+
+      // setCookie("sessionToken", token!, {
+      //   maxAge: newExpiresAt,
+      //   secure: true,
+      //   sameSite: "Strict",
+      // });
+
+      // setCookie("sessionExpiresAt", newExpiresAt.toString(), {
+      //   maxAge: newExpiresAt,
+      //   secure: true,
+      //   sameSite: "Strict",
+      // });
+
+      // setExpiresAt(newExpiresAt);
+      setIsRenewalModalOpen(false);
+    } catch {
       handleSessionExpired();
-    }, remaining);
-
-    return () => clearTimeout(logoutTimer);
-  }, []);
-
-  const handleSessionExpired = () => {
-    console.warn('⚡ Sesión expirada automáticamente');
-    deleteCookie('sessionToken');
-    deleteCookie('sessionExpiresAt');
-    dispatch(clearCurrentUser());
-    router.push('/auth');
-  };
-
-  const onRenew = useCallback(() => {
-    console.log("🔁 Usuario desea renovar sesión");
-    setRenewalModalOpen(false);
-  }, []);
+    }
+  }, [handleSessionExpired]);
 
   const onDismiss = useCallback(() => {
-    console.log("❌ Usuario descartó la renovación");
-    setRenewalModalOpen(false);
-  }, []);
+    setIsRenewalModalOpen(false);
+    handleSessionExpired();
+  }, [handleSessionExpired]);
 
-  return {
-    isRenewalModalOpen,
-    onRenew,
-    onDismiss,
-  };
+  useEffect(() => {
+    if (!expiresAt || isNaN(expiresAt)) return;
+    setupWatcher(expiresAt);
+
+    return () => clearWatcher();
+  }, [expiresAt, setupWatcher]);
+
+  return { onRenew, onDismiss, handleSessionExpired, isRenewalModalOpen };
 }

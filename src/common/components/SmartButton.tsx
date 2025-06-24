@@ -27,6 +27,7 @@ import { useId } from 'react'
 import React from 'react'
 
 interface SmartButtonProps {
+  id?: string
   label: string
   onClick?: () => void
   variant?: 'contained' | 'outlined' | 'text'
@@ -41,6 +42,7 @@ interface SmartButtonProps {
 }
 
 function SmartButton({
+  id,
   label,
   onClick,
   variant = 'contained',
@@ -58,7 +60,7 @@ function SmartButton({
 
   return (
     <Button
-      id={generatedId}
+      id={id || generatedId}
       aria-label={label}
       variant={variant}
       size={size}
