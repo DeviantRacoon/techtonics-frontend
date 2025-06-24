@@ -62,7 +62,12 @@ const SmartTableBody = ({
   }
 
   function getValueFromPath(obj: Record<string, any>, path: string): any {
-    return path.split('.').reduce((acc, key) => acc?.[key], obj);
+    return path.split('.').reduce((acc: any, key) => {
+      if (acc === undefined || acc === null) return undefined
+      if (key === '*') return acc
+      if (Array.isArray(acc)) return acc.map(item => item?.[key])
+      return acc[key]
+    }, obj)
   }
 
   const renderDefaultCell = useCallback((column: Column, value: any, row: Row) => {
