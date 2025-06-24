@@ -28,7 +28,14 @@ export default function ModalForm({
   schema,
   data = {}
 }: ModalFormProps) {
-  const { control, handleSubmit, reset, watch, getValues } = useForm({ defaultValues: data })
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    getValues,
+    formState: { isValid }
+  } = useForm({ defaultValues: data, mode: 'onChange' })
 
   useEffect(() => {
     if (isOpen) {
@@ -67,6 +74,16 @@ export default function ModalForm({
               name={field.key}
               control={control}
               defaultValue={getValueFromPath(data, field.key) ?? ''}
+              rules={{
+                required: field.required ? 'Campo obligatorio' : false,
+                minLength: field.minLength
+                  ? { value: field.minLength, message: `Mínimo ${field.minLength}` }
+                  : undefined,
+                maxLength: field.maxLength
+                  ? { value: field.maxLength, message: `Máximo ${field.maxLength}` }
+                  : undefined,
+                pattern: field.pattern,
+              }}
               render={({ field: { onChange } }) => (
                 <FieldRenderer
                   field={evaluatedField}
@@ -123,6 +140,7 @@ export default function ModalForm({
             })}
             fullWidth
             loading={loading}
+            disabled={!isValid}
           />
         )}
       </Stack>
