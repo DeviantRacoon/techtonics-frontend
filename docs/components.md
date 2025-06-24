@@ -159,6 +159,12 @@ Sistema de tabla avanzado que incluye búsqueda, ordenamiento, filtros dinámico
 - Acciones por fila mediante menús.
 - Renderizado especial según el tipo de columna (`status`, `money`, `image`, etc.).
 
+Los filtros aceptan rutas usando notación de puntos para acceder a propiedades
+anidadas, por ejemplo `role.roleId`. Para filtrar arreglos de objetos se puede
+utilizar el comodín `*`, como en `businessUnits.*.businessUnitId`, de modo que
+la fila coincidirá si alguno de los elementos del arreglo contiene el valor
+seleccionado.
+
 ### Ejemplo básico
 ```tsx
 import SmartTable from '@/common/components/SmartTable/SmartTable'
