@@ -1,23 +1,19 @@
-'use client';
+'use client'
 
-import React, { useRef, useCallback, useMemo, useState, useEffect } from 'react';
-import {
-  Typography,
-  Divider,
-  Stack,
-} from '@mui/material';
+import React, { useMemo, useEffect } from 'react'
+import { Typography, Divider, Stack } from '@mui/material'
+import Grid from '@mui/material/GridLegacy'
+import { useForm, Controller } from 'react-hook-form'
 
-import Grid from '@mui/material/GridLegacy';
+import Modal from '../Modal'
+import SmartButton from '../SmartButton'
+import FieldRenderer from './FieldRenderer'
 
-import Modal from '../Modal';
-import SmartButton from '../SmartButton';
-import FieldRenderer from './FieldRenderer';
+import { ModalFormProps, FieldSchema } from './types'
 
-import { SmartInputRef } from '../SmartInput';
-import { SmartSelectRef } from '../SmartSelect';
-import { SmartFileInputRef } from '../SmartFileInput';
-
-import { ModalFormProps, FieldSchema } from './types';
+function getValueFromPath(obj: Record<string, any>, path: string): any {
+  return path.split('.').reduce((acc, part) => acc?.[part], obj)
+}
 
 export default function ModalForm({
   isOpen,
@@ -32,121 +28,70 @@ export default function ModalForm({
   schema,
   data = {}
 }: ModalFormProps) {
-  const refs = useRef<Record<string, SmartInputRef | SmartSelectRef | SmartFileInputRef>>({});
-  const [formValues, setFormValues] = useState<Record<string, any>>(data);
+  const { control, handleSubmit, reset, watch, getValues } = useForm({ defaultValues: data })
 
   useEffect(() => {
     if (isOpen) {
-      setFormValues(data);
+      reset(data)
     }
-  }, [isOpen, data]);
+  }, [isOpen, data, reset])
 
-  const handleFieldRef = useCallback(
-    (key: string, ref: any) => {
-      if (ref) refs.current[key] = ref;
-    },
-    []
-  );
+  const formValues = watch()
 
-  function getValueFromPath(obj: Record<string, any>, path: string): any {
-    return path.split('.').reduce((acc, part) => acc?.[part], obj);
-  }
+  const visibleFields = useMemo(
+    () =>
+      schema.filter((field) => {
+        if (typeof field.hidden === 'function') {
+          return !field.hidden(formValues)
+        }
+        return !field.hidden
+      }),
+    [schema, formValues]
+  )
 
-  function setValueToPath(obj: Record<string, any>, path: string, value: any) {
-    const parts = path.split('.');
-    let current = obj;
+  const gridFields = useMemo(
+    () =>
+      visibleFields.map((field: FieldSchema) => {
+        const { breakpoint = { xs: 12 } } = field
 
-    parts.forEach((part, index) => {
-      if (index === parts.length - 1) {
-        current[part] = value;
-      } else {
-        current[part] = current[part] ?? {};
-        current = current[part];
-      }
-    });
-  }
-
-  const handleChange = useCallback(
-    (key: string, value: any) => {
-      setFormValues((prev) => {
-        const updated = { ...prev };
-        setValueToPath(updated, key, value);
-
-        const fieldSchema = schema.find((f) => f.key === key);
-        if (fieldSchema?.onChange) {
-          try {
-            fieldSchema.onChange(updated, value);
-          } catch (e) {
-            console.warn(`Error en onChange de ${key}`, e);
-          }
+        const evaluatedField: FieldSchema = {
+          ...field,
+          disabled:
+            readOnly ||
+            (typeof field.disabled === 'function' ? field.disabled(formValues) : field.disabled)
         }
 
-        return updated;
-      });
-    },
-    [schema]
-  );
+        return (
+          <Grid item {...breakpoint} key={field.key}>
+            <Controller
+              name={field.key}
+              control={control}
+              defaultValue={getValueFromPath(data, field.key) ?? ''}
+              render={({ field: { onChange } }) => (
+                <FieldRenderer
+                  field={evaluatedField}
+                  defaultValue={getValueFromPath(data, field.key) ?? ''}
+                  onChange={(value) => {
+                    onChange(value)
+                    field.onChange?.(getValues(), value)
+                  }}
+                />
+              )}
+            />
+          </Grid>
+        )
+      }),
+    [visibleFields, formValues, control, data, readOnly, getValues]
+  )
 
-  const handleSubmit = useCallback(() => {
-    let isValid = true;
-    const values: Record<string, any> = {};
-
-    for (const key of Object.keys(refs.current)) {
-      const fieldRef = refs.current[key];
-      const valid = fieldRef?.validate?.();
-      if (!valid) isValid = false;
-
-      const value = fieldRef?.getValue?.();
-      setValueToPath(values, key, value);
-    }
-
-    if (!isValid) return;
-
-    onSubmit(values);
-  }, [onSubmit]);
-
-  const visibleFields = useMemo(() => (
-    schema.filter((field) => {
-      if (typeof field.hidden === 'function') {
-        return !field.hidden(formValues);
-      }
-      return !field.hidden;
-    })
-  ), [schema, formValues]);
-
-  const gridFields = useMemo(() => (
-    visibleFields.map((field: FieldSchema) => {
-      const { breakpoint = { xs: 12 } } = field;
-
-      const evaluatedField: FieldSchema = {
-        ...field,
-        disabled: readOnly || (typeof field.disabled === 'function'
-          ? field.disabled(formValues)
-          : field.disabled),
-        onChange: (value: any) => handleChange(field.key, value),
-      };
-
-      return (
-        <Grid item {...breakpoint} key={field.key}>
-          <FieldRenderer
-            field={evaluatedField}
-            defaultValue={getValueFromPath(formValues, field.key) ?? ''}
-            onRef={(ref) => handleFieldRef(field.key, ref)}
-          />
-        </Grid>
-      );
-
-    })
-  ), [visibleFields, formValues, handleFieldRef, readOnly, handleChange]);
-
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="md" noIconClose>
-      <Typography variant="h5" color="text.primary" fontWeight={700} mb={2}>
+    <Modal isOpen={isOpen} onClose={() => { reset(); onClose() }} size='md' noIconClose>
+      <Typography variant='h5' color='text.primary' fontWeight={700} mb={2}>
         {title}
         {description && (
-          <Typography variant="body2" color="text.secondary" mb={2}>
+          <Typography variant='body2' color='text.secondary' mb={2}>
             {description}
           </Typography>
         )}
@@ -158,24 +103,29 @@ export default function ModalForm({
 
       <Divider sx={{ my: 2 }} />
 
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="flex-end">
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent='flex-end'>
         <SmartButton
           label={cancelText}
-          variant="outlined"
-          onClick={onClose}
+          variant='outlined'
+          onClick={() => {
+            reset()
+            onClose()
+          }}
           sx={{ flex: 1, padding: readOnly ? '' : '0 38px' }}
           loading={loading}
         />
         {!readOnly && (
           <SmartButton
             label={confirmText}
-            variant="contained"
-            onClick={handleSubmit}
+            variant='contained'
+            onClick={handleSubmit((vals) => {
+              onSubmit(vals)
+            })}
             fullWidth
             loading={loading}
           />
         )}
       </Stack>
     </Modal>
-  );
+  )
 }

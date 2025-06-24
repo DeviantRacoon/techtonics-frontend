@@ -1,4 +1,4 @@
-import React, { memo, forwardRef } from 'react';
+import React, { memo } from 'react';
 import SmartInput from '../SmartInput';
 import SmartSelect from '../SmartSelect';
 import SmartFileInput from '../SmartFileInput';
@@ -11,16 +11,15 @@ import { FieldSchema } from './types';
 interface FieldRendererProps {
   field: FieldSchema;
   defaultValue: any;
-  onRef: (ref: any) => void;
+  onChange: (value: any) => void;
 }
 
-function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererProps) {
+function FieldRendererComponent({ field, defaultValue, onChange }: FieldRendererProps) {
   const {
     label,
     type = 'text',
     required,
     placeholder,
-    onChange,
     options = [],
     allowedFormats,
     maxFileSizeMB,
@@ -31,10 +30,17 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
     disabled
   } = field;
 
+
   if (type === 'checkbox') {
     return (
       <FormControlLabel
-        control={<Checkbox defaultChecked={!!defaultValue} disabled={!!disabled} onChange={onChange} />}
+        control={
+          <Checkbox
+            checked={!!defaultValue}
+            disabled={!!disabled}
+            onChange={(e) => onChange(e.target.checked)}
+          />
+        }
         label={label}
       />
     );
@@ -43,7 +49,6 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
   if (type === 'select') {
     return (
       <SmartSelect
-        ref={(el) => onRef(el)}
         label={label}
         required={required}
         multiple={multiple}
@@ -61,7 +66,6 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
   if (type === 'file') {
     return (
       <SmartFileInput
-        ref={(el) => onRef(el)}
         label={label}
         allowedTypes={allowedFormats}
         maxSizeMb={maxFileSizeMB}
@@ -77,7 +81,6 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
   if (type === 'date') {
     return (
       <SmartDateInput
-        ref={(el) => onRef(el)}
         label={label}
         required={required}
         defaultValue={defaultValue}
@@ -91,7 +94,6 @@ function FieldRendererComponent({ field, defaultValue, onRef }: FieldRendererPro
 
   return (
     <SmartInput
-      ref={(el) => onRef(el)}
       type={type === 'textarea' ? 'text' : type}
       isTextArea={type === 'textarea'}
       label={label}

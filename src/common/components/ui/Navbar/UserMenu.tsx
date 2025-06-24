@@ -217,15 +217,16 @@ export default function UserMenu() {
         }}>
         {renderMenuContent()}
       </Drawer>
-      <ModalForm
-        title="Perfil"
-        readOnly
-        data={currentUser || {}}
-        description="Este es tu perfil del usuario"
-        isOpen={modalProfile.isOpen}
-        onClose={() => setModalProfile({ isOpen: false, isEdit: false, title: "", description: "" })}
-        onSubmit={() => { }}
-        schema={[
+      {modalProfile.isOpen && (
+        <ModalForm
+          title="Perfil"
+          readOnly
+          data={currentUser || {}}
+          description="Este es tu perfil del usuario"
+          isOpen={modalProfile.isOpen}
+          onClose={() => setModalProfile({ isOpen: false, isEdit: false, title: "", description: "" })}
+          onSubmit={() => { }}
+          schema={[
           {
             key: "username",
             label: "Nombre de usuario",
@@ -275,9 +276,9 @@ export default function UserMenu() {
             label: "Genero",
             breakpoint: { xs: 6 }
           },
-        ]
-        }>
-      </ModalForm>
+        ]}
+        />
+      )}
     </Box >
   );
 }
