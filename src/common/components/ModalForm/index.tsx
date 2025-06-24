@@ -118,6 +118,10 @@ export default function ModalForm({
         {gridFields}
       </Grid>
 
+      <Typography variant='caption' color='text.secondary' mt={1}>
+        Los campos marcados con * son obligatorios
+      </Typography>
+
       <Divider sx={{ my: 2 }} />
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent='flex-end'>
