@@ -109,34 +109,39 @@ export function ProfileView() {
         onConfirm={() => deleteProfile(selected, handleCloseModal)}
       />
 
-      <ModalForm
-        loading={loading}
-        data={selected}
-        isOpen={showFormModal.isOpen}
-        onClose={handleCloseModal}
-        onSubmit={(values) =>
-          submitProfile(values, showFormModal.isEdit, selected, handleCloseModal)
-        }
-        title={showFormModal.title}
-        description={showFormModal.description}
-        schema={[
+      {showFormModal.isOpen && (
+        <ModalForm
+          loading={loading}
+          data={selected}
+          isOpen={showFormModal.isOpen}
+          onClose={handleCloseModal}
+          onSubmit={(values) =>
+            submitProfile(values, showFormModal.isEdit, selected, handleCloseModal)
+          }
+          title={showFormModal.title}
+          description={showFormModal.description}
+          schema={[
           {
             key: "roleName",
             label: "Nombre rol",
             required: true,
           }
         ]}
-      />
+        />
+      )}
 
-      <ModalForm
-        loading={loading}
-        data={selected}
-        isOpen={showRequestModal.isOpen}
-        onClose={handleCloseModal}
-        onSubmit={(values) => submitProfileXRequest(values, selected, handleCloseModal)}
-        title={showRequestModal.title}
-        description={showRequestModal.description}
-        schema={[
+      {showRequestModal.isOpen && (
+        <ModalForm
+          loading={loading}
+          data={selected}
+          isOpen={showRequestModal.isOpen}
+          onClose={handleCloseModal}
+          onSubmit={(values) =>
+            submitProfileXRequest(values, selected, handleCloseModal)
+          }
+          title={showRequestModal.title}
+          description={showRequestModal.description}
+          schema={[
           {
             key: 'permissions',
             label: 'Permisos',
@@ -147,7 +152,8 @@ export function ProfileView() {
             options: catalogs.requests,
           }
         ]}
-      />
+        />
+      )}
     </Fragment>
   );
 }

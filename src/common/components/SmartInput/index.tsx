@@ -157,7 +157,7 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
         helperText={touched && error ? error : ''}
         InputLabelProps={{
           sx: { color: 'text.secondary' },
-          shrink: true,
+          shrink: touched || value !== '' || isTextArea,
         }}
         InputProps={{
           startAdornment: leftIcon ? (
