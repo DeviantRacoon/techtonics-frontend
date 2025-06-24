@@ -81,16 +81,17 @@ export function BusinessUnitView() {
         }}
       />
 
-      <ModalForm
-        loading={loading}
-        data={selected}
-        isOpen={showModalForm.isOpen}
-        title={showModalForm.title}
-        onClose={handleCloseModal}
-        onSubmit={(values) => {
-          createBusinessUnit(values, showModalForm.isEdit, selected, handleCloseModal);
-        }}
-        schema={[
+      {showModalForm.isOpen && (
+        <ModalForm
+          loading={loading}
+          data={selected}
+          isOpen={showModalForm.isOpen}
+          title={showModalForm.title}
+          onClose={handleCloseModal}
+          onSubmit={(values) => {
+            createBusinessUnit(values, showModalForm.isEdit, selected, handleCloseModal);
+          }}
+          schema={[
           {
             key: "businessUnitName",
             label: "Nombre",
@@ -112,7 +113,8 @@ export function BusinessUnitView() {
             required: showModalForm.isEdit ? false : true,
           },
         ]}
-      />
+        />
+      )}
     </Fragment>
   );
 }

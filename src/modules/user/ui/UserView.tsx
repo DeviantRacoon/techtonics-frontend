@@ -115,17 +115,18 @@ export function UserView() {
         }}
       />
 
-      <ModalForm
-        loading={loading}
-        data={selected}
-        isOpen={showFormModal.isOpen}
-        onClose={handleCloseModal}
-        onSubmit={(values) =>
-          submitUser(values, showFormModal.isEdit, selected, handleCloseModal)
-        }
-        title={showFormModal.title}
-        description={showFormModal.description}
-        schema={[
+      {showFormModal.isOpen && (
+        <ModalForm
+          loading={loading}
+          data={selected}
+          isOpen={showFormModal.isOpen}
+          onClose={handleCloseModal}
+          onSubmit={(values) =>
+            submitUser(values, showFormModal.isEdit, selected, handleCloseModal)
+          }
+          title={showFormModal.title}
+          description={showFormModal.description}
+          schema={[
           {
             key: "username",
             label: "Usuario",
@@ -207,7 +208,8 @@ export function UserView() {
             options: catalogs.profiles,
           },
         ]}
-      />
+        />
+      )}
     </Fragment>
   );
 }
