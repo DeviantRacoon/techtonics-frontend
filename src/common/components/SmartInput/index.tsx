@@ -100,12 +100,15 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
+      let newValue = e.target.value;
+      if (type === 'number' || type === 'tel') {
+        newValue = newValue.replace(/\D/g, '');
+      }
       setValue(newValue);
       validateInput(newValue);
       onChange?.(newValue);
     },
-    [onChange, validateInput]
+    [onChange, validateInput, type]
   );
 
   const handleBlur = () => {
@@ -128,6 +131,14 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
     maxLength
   };
 
+  const htmlInputProps = {
+    ...inputValidationProps,
+    autoComplete,
+    name: name || `${generatedId}-no-autofill`,
+    inputMode: type === 'number' || type === 'tel' ? ('numeric' as const) : undefined,
+    pattern: type === 'number' || type === 'tel' ? '[0-9]*' : undefined,
+  };
+
   return (
     <Box sx={{ position: 'relative' }} className={className}>
       <TextField
@@ -146,11 +157,7 @@ const SmartInputComponent = memo(forwardRef<SmartInputRef, SmartInputProps>((pro
         minRows={isTextArea ? 3 : undefined}
         maxRows={isTextArea ? 8 : undefined}
         error={!!error && touched}
-        inputProps={{
-          ...inputValidationProps,
-          autoComplete,
-          name: name || `${generatedId}-no-autofill`,
-        }}
+        inputProps={htmlInputProps}
         fullWidth={fullWidth}
         variant="outlined"
         autoComplete={autoComplete}
