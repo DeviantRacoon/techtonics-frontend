@@ -73,7 +73,11 @@ export default function ModalForm({
             <Controller
               name={field.key}
               control={control}
-              defaultValue={getValueFromPath(data, field.key) ?? ''}
+              defaultValue={
+                field.type === 'checkbox'
+                  ? getValueFromPath(data, field.key) ?? false
+                  : getValueFromPath(data, field.key) ?? ''
+              }
               rules={{
                 required: field.required ? 'Campo obligatorio' : false,
                 minLength: field.minLength
@@ -87,7 +91,11 @@ export default function ModalForm({
               render={({ field: controllerField }) => (
                 <FieldRenderer
                   field={evaluatedField}
-                  defaultValue={getValueFromPath(data, field.key) ?? ''}
+                  defaultValue={
+                    field.type === 'checkbox'
+                      ? getValueFromPath(data, field.key) ?? false
+                      : getValueFromPath(data, field.key) ?? ''
+                  }
                   value={controllerField.value}
                   onChange={(value) => {
                     controllerField.onChange(value)
