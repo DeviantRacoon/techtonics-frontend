@@ -9,12 +9,13 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 import { FieldSchema } from './types';
 
 interface FieldRendererProps {
-  field: FieldSchema;
-  defaultValue: any;
-  onChange: (value: any) => void;
+  field: FieldSchema
+  defaultValue: any
+  value: any
+  onChange: (value: any) => void
 }
 
-function FieldRendererComponent({ field, defaultValue, onChange }: FieldRendererProps) {
+function FieldRendererComponent({ field, defaultValue, value, onChange }: FieldRendererProps) {
   const {
     label,
     type = 'text',
@@ -36,14 +37,14 @@ function FieldRendererComponent({ field, defaultValue, onChange }: FieldRenderer
       <FormControlLabel
         control={
           <Checkbox
-            checked={!!defaultValue}
+            checked={!!value}
             disabled={!!disabled}
             onChange={(e) => onChange(e.target.checked)}
           />
         }
         label={label}
       />
-    );
+    )
   }
 
   if (type === 'select') {

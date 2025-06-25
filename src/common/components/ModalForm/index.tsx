@@ -82,14 +82,15 @@ export default function ModalForm({
                 maxLength: field.maxLength
                   ? { value: field.maxLength, message: `Máximo ${field.maxLength}` }
                   : undefined,
-                pattern: field.pattern,
+                pattern: field.pattern as any,
               }}
-              render={({ field: { onChange } }) => (
+              render={({ field: controllerField }) => (
                 <FieldRenderer
                   field={evaluatedField}
                   defaultValue={getValueFromPath(data, field.key) ?? ''}
+                  value={controllerField.value}
                   onChange={(value) => {
-                    onChange(value)
+                    controllerField.onChange(value)
                     field.onChange?.(getValues(), value)
                   }}
                 />
