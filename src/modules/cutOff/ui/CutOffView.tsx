@@ -16,10 +16,11 @@ import { getAllowedActions } from "@/common/utils";
 export function CutOffView() {
   const { rows, loading, getCutOffs, createCutOff, deleteCutOff } = useCutOffController();
   const exampleShiftData = {
-    productsIn: 150,
-    productsOut: 876,
-    moneyIn: 45850.75,
-    responsibleUser: "Karla Gutiérrez"
+    totalRevenue: 45850.75,
+    itemsSold: 312,
+    stockEntries: 85,
+    stockExits: 350,
+    expectedCash: 45850.75
   };
 
 
