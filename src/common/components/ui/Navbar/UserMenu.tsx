@@ -189,10 +189,11 @@ export default function UserMenu() {
           component: Paper,
           elevation: 10,
           sx: {
-            mt: 1.2,
-            borderRadius: 2,
+            mt: .2,
+            borderRadius: 1,
             minWidth: 240,
             px: 0.5,
+            border: `1px solid ${theme.palette.divider}`,
             backgroundColor: theme.palette.background.paper,
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
           },

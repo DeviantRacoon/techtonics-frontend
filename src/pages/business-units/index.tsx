@@ -12,4 +12,4 @@ function BusinessUnitPage() {
   );
 }
 
-export default withPermissionGuard(BusinessUnitPage, 'role_list');
+export default withPermissionGuard(BusinessUnitPage, 'business_unit_list');

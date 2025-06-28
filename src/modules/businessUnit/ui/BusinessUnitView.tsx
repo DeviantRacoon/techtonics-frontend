@@ -9,12 +9,11 @@ import { SmartTable, Header, ConfirmModal, ThemedIcon, SmartButton, ModalForm } 
 
 import { useBusinessUnitController } from "../application/useBusinessUnitController";
 import { useBusinessUnitUI } from "../application/useBusinessUnitUI";
-import { STATUS_BUSINESS_UNIT } from "../domain/business-unit-model";
 
 import { getAllowedActions } from "@/common/utils";
 
 export function BusinessUnitView() {
-  const { rows, loading, getBusinessUnits, createBusinessUnit } = useBusinessUnitController();
+  const { rows, loading, getBusinessUnits, createBusinessUnit, deleteBusinessUnit } = useBusinessUnitController();
 
   const {
     selected,
@@ -41,13 +40,25 @@ export function BusinessUnitView() {
             label="Agregar unidad de negocio"
             variant="contained"
             leftIcon={<AddIcon />}
-            // hidden={!getAllowedActions('business_unit_create')}
+            hidden={!getAllowedActions('business_unit_create')}
             onClick={handleCreate}
           />
         }
       />
 
       <SmartTable
+        loading={loading}
+        filters={[
+          {
+            id: "status",
+            label: "Estatus",
+            type: "select",
+            options: [
+              { value: "ACTIVO", label: "Activo" },
+              { value: "ELIMINADO", label: "Eliminado" },
+            ],
+          }
+        ]}
         exportFilename="reporte-unidades-negocio.csv"
         rows={rows}
         columns={[
@@ -60,13 +71,13 @@ export function BusinessUnitView() {
         actions={[
           {
             label: "Editar",
-            hidden: !getAllowedActions("role_edit"),
+            hidden: !getAllowedActions("business_unit_edit"),
             icon: <ThemedIcon src="/assets/svg/create-outline.svg" alt="edit" width={20} />,
             onClick: handleEdit
           },
           {
             label: "Eliminar",
-            hidden: !getAllowedActions("role_edit"),
+            hidden: !getAllowedActions("business_unit_edit"),
             icon: <ThemedIcon src="/assets/svg/trash-outline.svg" alt="delete" width={20} />,
             onClick: handleDelete
           },
@@ -76,9 +87,7 @@ export function BusinessUnitView() {
       <ConfirmModal
         {...showConfirmModal}
         onClose={handleCloseModal}
-        onConfirm={() => {
-          const status = showConfirmModal.title === "Banear unidad de negocio" ? STATUS_BUSINESS_UNIT.INACTIVE : STATUS_BUSINESS_UNIT.DELETED;
-        }}
+        onConfirm={() => deleteBusinessUnit(selected.businessUnitId, handleCloseModal)}
       />
 
       {showModalForm.isOpen && (
@@ -102,6 +111,7 @@ export function BusinessUnitView() {
             key: "businessUnitEmail",
             label: "Correo electrónico",
             type: "email",
+            pattern: { message: "Correo inválido", value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i },
             required: showModalForm.isEdit ? false : true,
           },
           {

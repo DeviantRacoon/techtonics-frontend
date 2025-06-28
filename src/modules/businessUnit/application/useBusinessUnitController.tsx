@@ -50,11 +50,28 @@ export function useBusinessUnitController() {
     setLoading(false);
   }, [getBusinessUnits]);
 
+  const deleteBusinessUnit = useCallback(async (businessUnitId: string, onSuccess: () => void) => {
+    setLoading(true);
+
+    const { error } = await businessUnitService.fetchUpdateBusinessUnit({ businessUnitId, status: STATUS_BUSINESS_UNIT.DELETED });
+
+    if (error) {
+      toast.show(error.message, { variant: "error" });
+    } else {
+      toast.show("Eliminación exitosa!", { variant: "success" });
+      await getBusinessUnits();
+      onSuccess();
+    }
+
+    setLoading(false);
+  }, [getBusinessUnits]);
+
   return {
     loading,
     rows,
     getBusinessUnits,
     createBusinessUnit,
+    deleteBusinessUnit,
   };
 }
 

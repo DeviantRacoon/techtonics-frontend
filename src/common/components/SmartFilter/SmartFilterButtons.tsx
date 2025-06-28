@@ -109,7 +109,8 @@ export default function SmartFilterButtons({
         slotProps={{
           paper: {
             sx: {
-              borderRadius: 2,
+              borderRadius: 1,
+              border: `1px solid ${theme.palette.divider}`,
               px: 2,
               py: 2,
               minWidth: 260,

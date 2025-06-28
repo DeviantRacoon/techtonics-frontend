@@ -3,7 +3,10 @@ import {
   Button, Divider, FormControl, InputLabel, Popover, MenuItem, Select, Typography
   , TextField, Checkbox, FormControlLabel, Stack
 } from '@mui/material'
+
 import CloseIcon from '@mui/icons-material/Close'
+
+import { useTheme } from '@mui/material/styles'
 
 import type { FilterDefinition } from '../SmartTable/types'
 
@@ -29,6 +32,8 @@ export default function SmartFilterMenu({
   isMobile
 }: Props) {
   const hasActiveFilters = Object.values(activeFilters).some(Boolean)
+
+  const theme = useTheme()
 
   const renderFilterField = (filter: FilterDefinition) => {
     const value = activeFilters[filter.id] ?? '';
@@ -145,7 +150,8 @@ export default function SmartFilterMenu({
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       PaperProps={{
         sx: {
-          borderRadius: 3,
+          borderRadius: 1,
+          border: `1px solid ${theme.palette.divider}`,
           px: 3,
           py: 3,
           minWidth: isMobile ? '90vw' : 400,

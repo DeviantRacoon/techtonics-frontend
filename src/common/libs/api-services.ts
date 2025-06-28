@@ -93,6 +93,10 @@ class ApiService {
           if (value !== undefined && value !== null) {
             if (value instanceof File || value instanceof Blob) {
               formData.append(key, value);
+            } else if (Array.isArray(value)) {
+              value.forEach(item => formData.append(`${key}[]`, item));
+            } else if (typeof value === 'object') {
+              formData.append(key, JSON.stringify(value));
             } else {
               formData.append(key, String(value));
             }
@@ -100,6 +104,11 @@ class ApiService {
         });
 
         config.data = formData;
+
+        if (config.headers && (config.headers as any)['Content-Type']) {
+          delete (config.headers as any)['Content-Type'];
+        }
+
       } else {
         config.data = JSON.stringify(preparedData);
         config.headers!['Content-Type'] = 'application/json';

@@ -110,7 +110,8 @@ const backdropStyle = (theme: any): React.CSSProperties => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '1rem'
+  padding: '1rem',
+  border: `1px solid ${theme.palette.divider}`
 })
 
 const contentStyle = (theme: any, width: string | number): React.CSSProperties => ({

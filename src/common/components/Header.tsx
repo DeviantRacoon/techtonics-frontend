@@ -43,8 +43,7 @@ export default function Header({
       color="primary.main"
       width={52}
       height={52}
-      mr={2}
-    >
+      mr={2}>
       {icon}
     </Box>
   ), [icon])
@@ -54,6 +53,7 @@ export default function Header({
       elevation={1}
       sx={{
         borderRadius: 1,
+        border: `1px solid ${theme.palette.divider}`,
         padding: theme.spacing(3),
         mb: 3,
         backgroundColor: 'background.paper'

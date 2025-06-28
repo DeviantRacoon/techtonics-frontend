@@ -26,19 +26,17 @@ export default function DrawerContent() {
     <>
       {hovered && (
         <Box
-          sx={{
-            opacity: hovered ? 1 : 0,
-            transition: 'opacity 0.3s ease',
-            pointerEvents: 'none',
+          className="mui-modal-backdrop"
+          style={{
             position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: theme.palette.mode === 'dark'
-              ? alpha(theme.palette.common.black, 0.5)
-              : alpha(theme.palette.common.black, 0.35),
-            zIndex: 1100,
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(4px)',
+            zIndex: "11",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem',
           }}
         />
       )}
@@ -68,3 +66,4 @@ export default function DrawerContent() {
     </>
   )
 }
+

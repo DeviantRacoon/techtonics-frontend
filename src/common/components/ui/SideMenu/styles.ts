@@ -23,7 +23,7 @@ export const SidebarContainer = styled(motion.aside)(({ theme }) => {
                 0 2px 4px ${alpha(baseColor, 0.12)},
                 0 4px 8px ${alpha(baseColor, 0.16)}`,
 
-    borderRight: `1px solid ${alpha(baseColor, isDark ? 0.12 : 0.2)}`,
+    border: `1px solid ${theme.palette.divider}`,
     '&::after': {
       content: '""',
       position: 'absolute',

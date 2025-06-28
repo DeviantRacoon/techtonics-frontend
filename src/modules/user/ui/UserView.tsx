@@ -18,24 +18,29 @@ export function UserView() {
     catalogs,
     getUsers,
     getProfiles,
+    getBusinessUnits,
     submitUser,
+    submitAddBusinessUnit,
     changeStatus,
   } = useUserController();
 
   const {
     selected,
     showConfirmModal,
+    showFormBusinessUnitModal,
     showFormModal,
     handleCreate,
     handleEdit,
     handleDelete,
     handleActive,
+    handleAddBusinessUnit,
     handleCloseModal,
   } = useUserUI();
 
   useEffect(() => {
     getUsers();
     getProfiles();
+    getBusinessUnits();
   }, [getUsers]);
 
   return (
@@ -70,11 +75,17 @@ export function UserView() {
             label: "Roles",
             options: catalogs.profiles,
           },
+          {
+            id: "businessUnits.*.businessUnitId",
+            label: "Unidades de negocio",
+            options: catalogs.businessUnits,
+            type: "select",
+          }
         ]}
         columns={[
           { id: "username", label: "Nombre", tooltip: true },
           { id: "email", label: "Email" },
-          { id: "roleName", label: "Role" },
+          { id: "role.roleName", label: "Role" },
           { id: "status", label: "Estatus", type: "status" },
           { id: "createdAt", label: "Fecha creación", type: "date" },
         ]}
@@ -87,6 +98,15 @@ export function UserView() {
             },
             icon: <ThemedIcon src="/assets/svg/create-outline.svg" alt="edit" width={20} />,
             onClick: handleEdit
+          },
+          {
+            label: "Agregar unidad de negocio",
+            hidden: (row) => {
+              if (row?.status === "ELIMINADO") return true
+              return !getAllowedActions("user_edit")
+            },
+            icon: <ThemedIcon src="/assets/svg/add-outline.svg" alt="add" width={20} />,
+            onClick: handleAddBusinessUnit
           },
           {
             label: "Activar",
@@ -127,87 +147,110 @@ export function UserView() {
           title={showFormModal.title}
           description={showFormModal.description}
           schema={[
-          {
-            key: "username",
-            label: "Usuario",
-            required: !showFormModal.isEdit,
-          },
-          {
-            key: "password",
-            label: "Contraseña",
-            type: "password",
-            minLength: showFormModal.isEdit ? 0 : 8,
-            pattern: showFormModal.isEdit ? undefined : { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: "La contraseña debe tener al menos 8 caracteres, una letra y un número." },
-            required: !showFormModal.isEdit,
-          },
-          {
-            key: "person.curp",
-            label: "CURP",
-            required: true,
-            maxLength: 18,
-            pattern: {
-              value: /^[A-Z][AEIXOU][A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]\d$/,
-              message: "La CURP no es válida."
+            {
+              key: "username",
+              label: "Usuario",
+              required: !showFormModal.isEdit,
+            },
+            {
+              key: "password",
+              label: "Contraseña",
+              type: "password",
+              minLength: showFormModal.isEdit ? 0 : 8,
+              pattern: showFormModal.isEdit ? undefined : { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: "La contraseña debe tener al menos 8 caracteres, una letra y un número." },
+              required: !showFormModal.isEdit,
+            },
+            {
+              key: "person.curp",
+              label: "CURP",
+              required: true,
+              maxLength: 18,
+              pattern: {
+                value: /^[A-Z][AEIXOU][A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]\d$/,
+                message: "La CURP no es válida."
+              }
+            },
+            {
+              key: "person.names",
+              label: "Nombre(s)",
+              required: true
+            },
+            {
+              key: "person.lastName",
+              label: "Apellido Paterno",
+              required: true,
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "person.secondLastName",
+              label: "Apellido Materno",
+              required: true,
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "email",
+              label: "Correo",
+              type: "email",
+              required: true,
+              pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "El correo no es válido." },
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "person.cellphone",
+              label: "Celular",
+              type: "tel",
+              required: true,
+              maxLength: 10,
+              pattern: { value: /^[0-9]{10}$/, message: "El número de celular no es válido." },
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "person.gender",
+              label: "Genero",
+              type: "select",
+              required: true,
+              options: [
+                { label: "Masculino", value: "M" },
+                { label: "Femenino", value: "F" },
+              ],
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "person.birthdate",
+              label: "Fecha de nacimiento",
+              type: "date",
+              breakpoint: { xs: 6 },
+            },
+            {
+              key: "role.roleId",
+              label: "Rol",
+              type: "select",
+              options: catalogs.profiles,
             }
-          },
-          {
-            key: "person.names",
-            label: "Nombre(s)",
-            required: true
-          },
-          {
-            key: "person.lastName",
-            label: "Apellido Paterno",
-            required: true,
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "person.secondLastName",
-            label: "Apellido Materno",
-            required: true,
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "email",
-            label: "Correo",
-            type: "email",
-            required: true,
-            pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "El correo no es válido." },
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "person.cellphone",
-            label: "Celular",
-            type: "tel",
-            required: true,
-            maxLength: 10,
-            pattern: { value: /^[0-9]{10}$/, message: "El número de celular no es válido." },
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "person.gender",
-            label: "Genero",
-            type: "select",
-            required: true,
-            options: [
-              { label: "Masculino", value: "M" },
-              { label: "Femenino", value: "F" },
-            ],
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "person.birthdate",
-            label: "Fecha de nacimiento",
-            type: "date",
-            breakpoint: { xs: 6 },
-          },
-          {
-            key: "role.roleId",
-            label: "Rol",
-            type: "select",
-            options: catalogs.profiles,
-          },
-        ]}
+          ]}
+        />
+      )}
+
+      {showFormBusinessUnitModal.isOpen && (
+        <ModalForm
+          loading={loading}
+          data={selected}
+          isOpen={showFormBusinessUnitModal.isOpen}
+          onClose={handleCloseModal}
+          onSubmit={(values) =>
+            submitAddBusinessUnit(values, selected, handleCloseModal)
+          }
+          title="Agregar unidad de negocio"
+          description="Completa el siguiente formulario para agregar una unidad de negocio."
+          schema={[
+            {
+              key: "businessUnitsAll",
+              label: "Unidades de negocio",
+              type: "select",
+              multiple: true,
+              options: catalogs.businessUnits,
+            }
+          ]}
         />
       )}
     </Fragment>

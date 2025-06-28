@@ -41,6 +41,7 @@ export default function SearchActivator() {
           px: 2,
           py: 1,
           minWidth: 180,
+          border: `1px solid ${theme.palette.divider}`,
           boxShadow: theme.shadows[1],
           backgroundColor: theme.palette.background.paper,
           cursor: 'pointer',

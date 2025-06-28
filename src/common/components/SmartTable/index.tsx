@@ -10,6 +10,8 @@ import {
   Typography
 } from '@mui/material'
 
+import { useTheme } from '@mui/material/styles'
+
 import TableHeader from './SmartTableHeader'
 import TableBodyContent from './SmartTableBody'
 import SmartFilter from '../SmartFilter'
@@ -23,6 +25,8 @@ interface SmartTableExtendedProps extends ISmartTableProps {
 }
 
 const SmartTable = (props: SmartTableExtendedProps) => {
+  const theme = useTheme()
+
   const {
     columns,
     actions,
@@ -76,7 +80,9 @@ const SmartTable = (props: SmartTableExtendedProps) => {
   }, [filteredRows, visibleColumns]);
 
   return (
-    <Paper elevation={1} sx={{ borderRadius: 1 }}>
+    <Paper elevation={1} sx={{
+      borderRadius: 1, border: `1px solid ${theme.palette.divider}`,
+    }}>
       {/* 🔍 Barra de filtros + acciones */}
       <SmartFilter
         placeholder="Buscar..."

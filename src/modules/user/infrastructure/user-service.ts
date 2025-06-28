@@ -20,4 +20,9 @@ export default class UserService extends BaseService {
     return response;
   };
 
+  async fetchAddBusinessUnits(data: any) {
+    const response = await this.put("/business-units", data);
+    return response;
+  };
+
 };

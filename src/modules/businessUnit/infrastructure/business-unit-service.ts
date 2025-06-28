@@ -11,7 +11,7 @@ export default class BusinessUnitService extends BaseService {
   };
 
   async fetchCreateBusinessUnit(data: any): Promise<any> {
-    const response = await this.post("", data);
+    const response = await this.post("", data, { isFormData: true });
     return response;
   };
 

@@ -13,6 +13,8 @@ import {
   Avatar,
 } from '@mui/material';
 
+import { useTheme } from '@mui/material/styles';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { format as formatDate } from 'date-fns'
 
@@ -46,6 +48,7 @@ const SmartTableBody = ({
   onClick,
   actions,
 }: SmartTableBodyProps) => {
+  const theme = useTheme()
   const [menuState, setMenuState] = useState<{ anchorEl: HTMLElement; row: Row } | null>(null)
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>, row: Row) => {
@@ -183,7 +186,18 @@ const SmartTableBody = ({
       ))}
 
       {!!actions?.length && menuState && (
-        <Menu anchorEl={menuState.anchorEl} open onClose={handleMenuClose}>
+        <Menu anchorEl={menuState.anchorEl} open onClose={handleMenuClose} slotProps={{
+          paper: {
+            sx: {
+              borderRadius: 1,
+              border: `1px solid ${theme.palette.divider}`,
+              p: 0.3,
+              minWidth: 110,
+              maxHeight: '60vh',
+              overflowY: 'auto',
+            }
+          }
+        }}>
           {actions.map((action, actIdx) => {
             const isHidden = typeof action.hidden === 'function'
               ? action.hidden(menuState.row)
@@ -195,8 +209,7 @@ const SmartTableBody = ({
               <MenuItem
                 key={`${menuState.row.id}-${action.label}-${actIdx}`}
                 onClick={() => clickMenuItem(action)}
-                sx={{ cursor: 'pointer', gap: 1, display: 'flex' }}
-              >
+                sx={{ cursor: 'pointer', gap: 1, display: 'flex', }}>
                 {action.icon}
                 {action.label}
               </MenuItem>

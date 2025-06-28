@@ -3,6 +3,7 @@ import { IMenuItem } from "@/common/models";
 import {
   AdminPanelSettings,
   DashboardRounded,
+  Inventory,
 } from "@mui/icons-material";
 
 export const modulesList: IMenuItem[] = [
@@ -17,7 +18,7 @@ export const modulesList: IMenuItem[] = [
     label: "Administración",
     icon: <AdminPanelSettings color="primary" />,
     permission: "dashboard",
-    description: "Listado de proyectos",
+    description: "Gestión del sistema",
     submenu: [
       {
         label: "Usuarios",
@@ -35,13 +36,39 @@ export const modulesList: IMenuItem[] = [
         label: "Unidades de Negocio",
         link: "/business-units",
         description: "Configuración de unidades de negocio",
-        permission: "role_list",
+        permission: "business_unit_list",
       },
       {
         label: "Sesiones",
         link: "/sessions",
         description: "Listado de sesiones activas",
         permission: "session_list",
+      },
+    ]
+  },
+  {
+    label: "Almacén",
+    icon: <Inventory color="primary" />,
+    permission: "dashboard",
+    description: "",
+    submenu: [
+      {
+        label: "Productos",
+        link: "/products",
+        description: "Almacén de productos",
+        permission: "product_list",
+      },
+      {
+        label: "Movimientos",
+        link: "/movements",
+        description: "Movimientos de productos en el almacén",
+        permission: "product_movement_list",
+      },
+      {
+        label: "Cortes",
+        link: "/cut-offs",
+        description: "Listado de cortes",
+        permission: "cut_off_list",
       },
     ]
   }

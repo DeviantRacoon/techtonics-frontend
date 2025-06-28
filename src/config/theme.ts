@@ -61,55 +61,55 @@ export const createCustomTheme = (mode: PaletteMode) => {
     },
     ...(mode === "light"
       ? {
-          background: {
-            default: "#f4f6f9",
-            paper: "#ffffff",
-            table: "#f1f3f7",
-          },
-          text: {
-            primary: "#2C3E50",
-            secondary: "#5D6D7E",
-            disabled: "#AAB2BD",
-          },
-          divider: "#D6DBE9",
-          grey: {
-            50: "#fdfdfe",
-            100: "#f0f2f7",
-            200: "#e1e4ec",
-            300: "#ccd2e2",
-            400: "#b0b9d0",
-            500: "#8a96af",
-            600: "#68748c",
-            700: "#4c566c",
-            800: "#343d4e",
-            900: "#1f2632",
-          },
-        }
+        background: {
+          default: "#f4f6f9",
+          paper: "#ffffff",
+          table: "#f1f3f7",
+        },
+        text: {
+          primary: "#2C3E50",
+          secondary: "#5D6D7E",
+          disabled: "#AAB2BD",
+        },
+        divider: "#D6DBE9",
+        grey: {
+          50: "#fdfdfe",
+          100: "#f0f2f7",
+          200: "#e1e4ec",
+          300: "#ccd2e2",
+          400: "#b0b9d0",
+          500: "#8a96af",
+          600: "#68748c",
+          700: "#4c566c",
+          800: "#343d4e",
+          900: "#1f2632",
+        },
+      }
       : {
-          background: {
-            default: "#161A2D",
-            paper: "#1f2235",
-            table: "#23263A",
-          },
-          text: {
-            primary: "#EAECEF",
-            secondary: "#AAB2C3",
-            disabled: "#6F7890",
-          },
-          divider: "rgba(255,255,255,0.12)",
-          grey: {
-            50: "#e4e6f0",
-            100: "#cfd3e0",
-            200: "#b6bbca",
-            300: "#9da3b3",
-            400: "#858c9d",
-            500: "#6e7486",
-            600: "#595e6f",
-            700: "#444858",
-            800: "#2f3240",
-            900: "#1a1c2d",
-          },
-        }),
+        background: {
+          default: "#161A2D",
+          paper: "#1f2235",
+          table: "#23263A",
+        },
+        text: {
+          primary: "#EAECEF",
+          secondary: "#AAB2C3",
+          disabled: "#6F7890",
+        },
+        divider: "rgba(255,255,255,0.12)",
+        grey: {
+          50: "#e4e6f0",
+          100: "#cfd3e0",
+          200: "#b6bbca",
+          300: "#9da3b3",
+          400: "#858c9d",
+          500: "#6e7486",
+          600: "#595e6f",
+          700: "#444858",
+          800: "#2f3240",
+          900: "#1a1c2d",
+        },
+      }),
   };
 
   const base = createTheme({ palette, ...commonTokens });
