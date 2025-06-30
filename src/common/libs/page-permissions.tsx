@@ -1,8 +1,7 @@
 'use client';
 
 import { JSX, useEffect, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/config/store'; 
+import { useAuthStore } from '@/common/store';
 import Router from 'next/router';
 
 export default function withPermissionGuard<P extends JSX.IntrinsicAttributes>(
@@ -11,7 +10,7 @@ export default function withPermissionGuard<P extends JSX.IntrinsicAttributes>(
 ) {
   const GuardedComponent = (props: P) => {
     const router = Router;
-    const user = useSelector((state: RootState) => state.auth.currentUser);
+    const user = useAuthStore((s) => s.user);
     const [authorized, setAuthorized] = useState(false);
 
     const offline = process.env.NEXT_PUBLIC_OFFLINE_MODE === 'true';

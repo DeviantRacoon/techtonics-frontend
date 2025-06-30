@@ -3,15 +3,14 @@ import { useRouter } from "next/navigation";
 
 import { getCookie, deleteCookie, setCookie } from "../libs/cookies-services";
 
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { clearCurrentUser } from "@/common/store";
+import { useAuthStore } from "@/common/store";
 // import { refreshToken } from "@/modules/auth/auth.services";
 
 const WARNING_THRESHOLD_MS = 30_000;
 
 export function useSessionExpiration() {
   const token = getCookie("sessionToken");
-  const dispatch = useAppDispatch();
+  const clearUser = useAuthStore((s) => s.clearUser);
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -26,9 +25,9 @@ export function useSessionExpiration() {
   const handleSessionExpired = useCallback(() => {
     deleteCookie("sessionToken");
     deleteCookie("sessionExpiresAt");
-    dispatch(clearCurrentUser());
+    clearUser();
     router.push("/auth");
-  }, []);
+  }, [clearUser, router]);
 
   const clearWatcher = () => {
     if (timeoutRef.current) {

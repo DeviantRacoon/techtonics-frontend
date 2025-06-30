@@ -16,7 +16,6 @@
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.1",
     "@mui/x-date-pickers": "^8.5.1",
-    "@reduxjs/toolkit": "^2.7.0",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
@@ -26,8 +25,7 @@
     "papaparse": "^5.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0",
+    "zustand": "^4.5.2",
     "react-hook-form": "^7.51.3"
   },
   "devDependencies": {
@@ -36,7 +34,6 @@
     "@types/papaparse": "^5.3.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/redux-persist": "^4.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "typescript": "^5"

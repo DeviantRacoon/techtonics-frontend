@@ -1,20 +1,15 @@
 // Config
-import { store } from '@/config/store';
+import { useAuthStore } from '../store';
 
 // Commons
 import { IUserLogin } from '../models';
-import { selectCurrentUser } from '../store';
 import { setCookie } from '../libs/cookies-services';
-import { setCurrentUser as setCurrentUserRedux } from "@/common/store";
 
 export function getCurrentUser(): IUserLogin | null {
-  const state = store.getState();
-  const currentUser = selectCurrentUser(state);
-
-  return currentUser;
+  return useAuthStore.getState().user;
 };
 
-export function setCurrentUser(dispatch: any, userLogged: IUserLogin) {
+export function setCurrentUser(userLogged: IUserLogin) {
   const userFormat: IUserLogin = {
     ...userLogged,
     allowedPermissions: userLogged.role.permissions.map((permission) => permission.permissionName),
@@ -31,7 +26,7 @@ export function setCurrentUser(dispatch: any, userLogged: IUserLogin) {
     maxAge: expirationSeconds
   });
 
-  dispatch(setCurrentUserRedux(userFormat));
+  useAuthStore.getState().setUser(userFormat);
 }
 
 export function clearCurrentUser() {

@@ -29,8 +29,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 
-import { useAppSelector } from '@/common/hooks';
-import { selectCurrentUser, clearCurrentUser as clearCurrentUserRedux } from '@/common/store';
+import { useAuth } from '@/common/hooks';
 import { clearCurrentUser } from '@/common/utils';
 
 import ModalForm from '../../ModalForm';
@@ -42,7 +41,7 @@ export default function UserMenu() {
   const router = Router;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const currentUser = useAppSelector(selectCurrentUser);
+  const { user: currentUser, clearUser } = useAuth();
 
   const { toggleColorMode, mode } = useColorMode()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -87,7 +86,7 @@ export default function UserMenu() {
   };
 
   const handleLogout = () => {
-    clearCurrentUserRedux();
+    clearUser();
     clearCurrentUser();
     sessionService.fetchCloseSession();
     router.push('/auth');
