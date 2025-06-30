@@ -1,17 +1,17 @@
 // Libraries
-import React, { useRef, useState } from "react";
-import Image from "next/image";
-import Router from "next/router";
+import React, { useRef, useState } from 'react';
+import Image from 'next/image';
+import Router from 'next/router';
 
 // MUI
-import { Stack, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
+import { Stack, Typography, Paper, useTheme, useMediaQuery } from '@mui/material';
 
 // Commons
-import { SmartButton, SmartInput, SmartInputRef, ThemedIcon } from "@/common/components";
+import { SmartButton, SmartInput, SmartInputRef, ThemedIcon } from '@/common/components';
 
 // Services
-import { forgotPassword } from "@/modules/auth/auth.services";
-import AuthLayout from "./_layout";
+import AuthService from '@/modules/auth/infrastructure/auth-service';
+import AuthLayout from './_layout';
 
 export default function AuthModule() {
   const router = Router;
@@ -19,31 +19,32 @@ export default function AuthModule() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const userRef = useRef<SmartInputRef>(null);
-
   const [loading, setLoading] = useState<'idle' | 'loading' | 'error'>('idle');
+
+  const authService = new AuthService();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading("loading");
+    setLoading('loading');
 
     const isUserValid = userRef.current?.validate() ?? false;
 
     if (!isUserValid) {
-      setLoading("idle");
+      setLoading('idle');
       return;
     }
 
     const user = userRef.current?.getValue();
 
-    const { error } = await forgotPassword(user!);
+    const { error } = await authService.forgotPassword(user!);
 
     if (error) {
-      setLoading("error");
+      setLoading('error');
       return;
-    };
+    }
 
-    setLoading("idle");
-    router.push("/");
+    setLoading('idle');
+    router.push('/');
   };
 
   return (
@@ -69,7 +70,7 @@ export default function AuthModule() {
             alt="Logotipo de Avan"
             width={isMobile ? 150 : 250}
             height={isMobile ? 50 : 100}
-            style={{ maxWidth: "100%", height: "auto" }}
+            style={{ maxWidth: '100%', height: 'auto' }}
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
@@ -93,10 +94,9 @@ export default function AuthModule() {
             label="Recuperar contraseña"
             variant="contained"
             type="submit"
-            loading={loading === "loading"}
+            loading={loading === 'loading'}
             fullWidth
           />
-
         </Stack>
       </Paper>
     </AuthLayout>
