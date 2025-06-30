@@ -34,6 +34,23 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const transitionRef = useRef<NodeJS.Timeout | null>(null)
 
+  const playSound = () => {
+    try {
+      const AudioContext =
+        (window as any).AudioContext || (window as any).webkitAudioContext
+      if (!AudioContext) return
+      const ctx = new AudioContext()
+      const oscillator = ctx.createOscillator()
+      oscillator.type = 'sine'
+      oscillator.frequency.value = 520
+      oscillator.connect(ctx.destination)
+      oscillator.start()
+      oscillator.stop(ctx.currentTime + 0.2)
+    } catch {
+      // ignore errors in browsers without AudioContext
+    }
+  }
+
   const clearTimers = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
     if (transitionRef.current) clearTimeout(transitionRef.current)
@@ -50,6 +67,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     })
     setVariant('loading')
     setOpen(true)
+    playSound()
 
     transitionRef.current = setTimeout(() => {
       setVariant(options?.variant || 'info')

@@ -4,6 +4,7 @@ import {
   AdminPanelSettings,
   DashboardRounded,
   Inventory,
+  ChatBubbleOutline,
 } from "@mui/icons-material";
 
 export const modulesList: IMenuItem[] = [
@@ -12,6 +13,13 @@ export const modulesList: IMenuItem[] = [
     icon: <DashboardRounded color="primary" />,
     link: "/home",
     description: "Resumen general del sistema y estadísticas",
+    permission: "dashboard",
+  },
+  {
+    label: "Chat",
+    icon: <ChatBubbleOutline color="primary" />,
+    link: "/chat",
+    description: "Comunicación entre usuarios",
     permission: "dashboard",
   },
   {
