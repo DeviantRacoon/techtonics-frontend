@@ -35,7 +35,7 @@ export default function MenuItem({ item, pathname, expanded, openSubmenus, toggl
   if (item.submenu) {
     return (
       <Fragment>
-        <NavLinkStyled component="a" onClick={() => toggleSubmenu(item.label)} className={active ? 'active' : ''}>
+        <NavLinkStyled onClick={() => toggleSubmenu(item.label)} className={active ? 'active' : ''}>
           {item.icon}
           {expanded ? (
             <>
@@ -56,7 +56,7 @@ export default function MenuItem({ item, pathname, expanded, openSubmenus, toggl
             <List disablePadding>
               {item.submenu.map((sub) => (
                 <Link key={sub.link} href={sub.link} passHref legacyBehavior>
-                  <NavLinkStyled component="a" className={isActive(sub.link) ? 'active' : ''}>
+                  <NavLinkStyled className={isActive(sub.link) ? 'active' : ''}>
                     {expanded && <ListItemText primary={sub.label} />}
                   </NavLinkStyled>
                 </Link>
@@ -70,7 +70,7 @@ export default function MenuItem({ item, pathname, expanded, openSubmenus, toggl
 
   return (
     <Link key={item.label} href={item.link || '#'} passHref legacyBehavior>
-      <NavLinkStyled component="a" className={active ? 'active' : ''}>
+      <NavLinkStyled className={active ? 'active' : ''}>
         {item.icon}
         {expanded ? (
           <ListItemText primary={item.label} />

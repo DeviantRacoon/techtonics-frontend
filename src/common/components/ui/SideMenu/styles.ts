@@ -1,5 +1,5 @@
 import { styled, alpha, darken, lighten } from '@mui/material/styles';
-import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton';
+import { ListItemButton } from '@mui/material'
 import { motion } from 'framer-motion'
 
 export const SidebarContainer = styled(motion.aside)(({ theme }) => {
@@ -40,7 +40,7 @@ export const SidebarContainer = styled(motion.aside)(({ theme }) => {
   };
 });
 
-export const NavLinkStyled = styled(ListItemButton)<ListItemButtonProps>(({ theme }) => ({
+export const NavLinkStyled = styled(ListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(1, 2),
   margin: theme.spacing(0.5, 0),
