@@ -29,3 +29,13 @@ flowchart TD
 ```
 
 Este enfoque permite que el buscador reconozca sinónimos y frases comunes sin requerir un procesamiento complejo del lenguaje natural.
+
+## Mejoras de coincidencia difusa
+
+El sistema aplica corrección de errores tipográficos (distancia de Levenshtein) y un pequeño *stemming* que reduce las palabras a su raíz. Así, entradas como `"ver almcen"` coinciden con el módulo **Almacén**.
+
+Pasos adicionales:
+
+1. Normalizar y tokenizar el texto ingresado.
+2. Corregir tokens con una distancia de edición ≤ 1 frente a los tokens de los módulos.
+3. Comparar las raíces resultantes con las palabras clave de cada módulo.

@@ -1,7 +1,11 @@
 'use client'
 
 import React, {
-  useRef, useEffect, useState, useMemo, useCallback
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
 } from 'react'
 import {
   Dialog,
@@ -23,6 +27,67 @@ import { modulesList } from '@/config/routes'
 import { getCurrentUser } from '@/common/utils'
 import { IMenuItem } from '@/common/models'
 
+const stopwords = [
+  'el',
+  'la',
+  'los',
+  'las',
+  'un',
+  'una',
+  'unos',
+  'unas',
+  'de',
+  'del',
+  'al',
+  'y',
+  'o',
+  'en',
+  'que',
+]
+
+const normalize = (str: string) =>
+  str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+const stem = (word: string) =>
+  word.replace(/(es|s)$/u, '')
+
+const tokenize = (str: string) =>
+  normalize(str)
+    .split(/\s+/)
+    .filter((t) => t && !stopwords.includes(t))
+    .map(stem)
+
+const levenshtein = (a: string, b: string) => {
+  const matrix: number[][] = []
+  const m = a.length
+  const n = b.length
+  for (let i = 0; i <= m; i++) {
+    matrix[i] = [i]
+  }
+  for (let j = 0; j <= n; j++) {
+    matrix[0][j] = j
+  }
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost,
+      )
+    }
+  }
+  return matrix[m][n]
+}
+
+const isClose = (a: string, b: string) => {
+  if (a.includes(b) || b.includes(a)) return true
+  return levenshtein(a, b) <= 1
+}
+
 interface CommandDialogProps {
   open: boolean
   onClose: () => void
@@ -34,6 +99,8 @@ interface FlatMenuItem {
   description?: string
   keywords?: string[]
   icon?: React.ReactElement
+  /** tokens generados para búsqueda */
+  tokens: string[]
 }
 
 export default function CommandDialog({ open, onClose }: CommandDialogProps) {
@@ -76,21 +143,29 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
     for (const item of userModules) {
       if (item?.submenu && item.submenu.length > 0) {
         for (const sub of item.submenu) {
+          const tokens = tokenize(
+            [sub.label, sub.description, ...(sub.keywords ?? [])].join(' '),
+          )
           items.push({
             label: sub.label,
             link: sub.link,
             description: sub.description,
             keywords: sub.keywords,
             icon: item.icon,
+            tokens,
           })
         }
       } else if (item?.link) {
+        const tokens = tokenize(
+          [item.label, item.description, ...(item.keywords ?? [])].join(' '),
+        )
         items.push({
           label: item.label,
           link: item.link,
           description: item.description,
           keywords: item.keywords,
           icon: item.icon,
+          tokens,
         })
       }
     }
@@ -99,40 +174,15 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
   }, [userModules])
 
   const filteredItems = useMemo(() => {
-    const normalize = (str: string) =>
-      str
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-    const stopwords = [
-      'el',
-      'la',
-      'los',
-      'las',
-      'un',
-      'una',
-      'unos',
-      'unas',
-      'de',
-      'del',
-      'al',
-      'y',
-      'o',
-      'en',
-      'que',
-    ]
+    const tokens = tokenize(query)
 
-    const tokens = normalize(query)
-      .split(/\s+/)
-      .filter((t) => t && !stopwords.includes(t))
+    if (tokens.length === 0) return flatMenu
 
-    return flatMenu.filter((item) => {
-      const searchable = normalize(
-        [item.label, item.description, ...(item.keywords ?? [])].join(' ')
-      )
-
-      return tokens.every((token) => searchable.includes(token))
-    })
+    return flatMenu.filter((item) =>
+      tokens.every((token) =>
+        item.tokens.some((t) => isClose(t, token)),
+      ),
+    )
   }, [query, flatMenu])
 
   const handleNavigate = useCallback((link: string) => {
