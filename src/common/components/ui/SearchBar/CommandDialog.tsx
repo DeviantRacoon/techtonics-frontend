@@ -32,6 +32,7 @@ interface FlatMenuItem {
   label: string
   link: string
   description?: string
+  keywords?: string[]
   icon?: React.ReactElement
 }
 
@@ -79,6 +80,7 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
             label: sub.label,
             link: sub.link,
             description: sub.description,
+            keywords: sub.keywords,
             icon: item.icon,
           })
         }
@@ -87,6 +89,7 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
           label: item.label,
           link: item.link,
           description: item.description,
+          keywords: item.keywords,
           icon: item.icon,
         })
       }
@@ -96,9 +99,40 @@ export default function CommandDialog({ open, onClose }: CommandDialogProps) {
   }, [userModules])
 
   const filteredItems = useMemo(() => {
-    return flatMenu.filter((item) =>
-      item.label.toLowerCase().includes(query.toLowerCase())
-    )
+    const normalize = (str: string) =>
+      str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+    const stopwords = [
+      'el',
+      'la',
+      'los',
+      'las',
+      'un',
+      'una',
+      'unos',
+      'unas',
+      'de',
+      'del',
+      'al',
+      'y',
+      'o',
+      'en',
+      'que',
+    ]
+
+    const tokens = normalize(query)
+      .split(/\s+/)
+      .filter((t) => t && !stopwords.includes(t))
+
+    return flatMenu.filter((item) => {
+      const searchable = normalize(
+        [item.label, item.description, ...(item.keywords ?? [])].join(' ')
+      )
+
+      return tokens.every((token) => searchable.includes(token))
+    })
   }, [query, flatMenu])
 
   const handleNavigate = useCallback((link: string) => {
