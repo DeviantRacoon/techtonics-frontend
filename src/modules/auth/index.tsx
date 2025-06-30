@@ -9,14 +9,12 @@ import { Stack, Typography, Paper, useTheme, useMediaQuery } from "@mui/material
 
 // Commons
 import { SmartButton, SmartInput, SmartInputRef, ThemedIcon } from "@/common/components";
-import { useAppDispatch } from '@/common/hooks';
 import { setCurrentUser } from "@/common/utils";
 
 // Services
 import { login } from "./auth.services";
 
 export default function AuthModule() {
-  const dispatch = useAppDispatch();
   const router = Router;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -48,7 +46,7 @@ export default function AuthModule() {
       return;
     };
 
-    setCurrentUser(dispatch, data);
+    setCurrentUser(data);
     router.push("/home");
   };
 

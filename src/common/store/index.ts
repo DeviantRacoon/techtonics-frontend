@@ -1,2 +1,2 @@
-export { setCurrentUser, clearCurrentUser } from "./authSlice";
-export { selectCurrentUser } from "./authSelectors"
+export { useAuthStore } from './useAuthStore'
+
