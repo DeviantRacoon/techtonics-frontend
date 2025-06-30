@@ -71,7 +71,7 @@ export default function AuthModule() {
       <Stack spacing={2} alignItems="center">
         <Image
           src="/assets/img/logotipo.webp"
-          alt="Logotipo de Avan"
+          alt="Logotipo"
           width={isMobile ? 150 : 250}
           height={isMobile ? 50 : 100}
           style={{ maxWidth: "100%", height: "auto" }}

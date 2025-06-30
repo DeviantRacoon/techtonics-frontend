@@ -10,6 +10,14 @@ export interface ICutOff {
   createdAt?: string;
 }
 
+export interface IDataModalCutOff {
+  cutOffDate: string;
+  stockExits: number;
+  totalRevenue: number;
+  stockEntries: number;
+  stockOutputs: number;
+}
+
 export enum STATUS_CUT_OFF {
   ACTIVE = "ACTIVO",
   INACTIVE = "INACTIVO",

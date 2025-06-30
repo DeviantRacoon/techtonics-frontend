@@ -24,25 +24,18 @@ export function useCutOffController() {
       return;
     }
 
-    setRows(data.map((cutOff: any) => ({
-      ...cutOff,
-      roleId: cutOff.role?.roleId,
-      roleName: cutOff.role?.roleName,
-    })));
-
+    setRows(data);
   }, []);
 
-  const createCutOff = useCallback(async (data: any, isEdit: boolean, selected: any, onSuccess: () => void) => {
+  const createCutOff = useCallback(async (data: any, onSuccess: () => void) => {
     setLoading(true);
 
-    const { error } = isEdit
-      ? await cutOffService.fetchUpdateCutOff(data)
-      : await cutOffService.fetchCreateCutOff(data);
+    const { error } = await cutOffService.fetchCreateCutOff(data);
 
     if (error) {
       toast.show(error.message, { variant: "error" });
     } else {
-      toast.show("Actualización exitosa!", { variant: "success" });
+      toast.show("Corte creado exitosamente!", { variant: "success" });
       await getCutOffs();
       onSuccess();
     }

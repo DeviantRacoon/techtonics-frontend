@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Avan | Automatización Inteligente</title>
-        <meta name="description" content="Avan transforma la forma en la que automatizas procesos y gestionas tus sistemas con una plataforma moderna, segura y escalable." />
+        <title>StRo | Administración de almacén</title>
+        <meta name="description" content="Esta es la descripción de la página" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

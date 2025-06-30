@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Head>
-            <title>Avan | Administración</title>
+            <title>StRo | Administración de almacén</title>
           </Head>
           <Component {...pageProps} />
         </PersistGate>

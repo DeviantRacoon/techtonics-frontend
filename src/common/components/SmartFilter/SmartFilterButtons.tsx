@@ -26,7 +26,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import ViewColumnIcon from '@mui/icons-material/ViewColumn'
 import TuneIcon from '@mui/icons-material/Tune';
 
-import { exportToCSV } from '@/common/utils/exportToCSV'
+import { exportToCSV } from '@/common/utils/export-csv'
 import type { Column, Row } from '../SmartTable/types'
 
 interface Props {
@@ -77,7 +77,7 @@ export default function SmartFilterButtons({
         {/* Filtros */}
         <Tooltip title="Filtros avanzados">
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} size="small">
-            <ThemedIcon src="/assets/svg/options-outline.svg" alt="Filtros" width={20} />
+            <TuneIcon fontSize="small" />
           </IconButton>
         </Tooltip>
 

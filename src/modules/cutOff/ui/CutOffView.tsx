@@ -5,9 +5,10 @@ import React, { useEffect, Fragment } from "react";
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import ArchiveIcon from '@mui/icons-material/Archive';
 
-import { SmartTable, Header, ConfirmModal, ThemedIcon, ModalForm, SmartButton } from "@/common/components";
+import { SmartTable, Header, ConfirmModal, ThemedIcon, SmartButton } from "@/common/components";
 
 import ModalCutOffView from "./ModalCutOffView";
+
 import { useCutOffController } from "../application/useCutOffController";
 import { useCutOffUI } from "../application/useCutOffUI";
 
@@ -16,11 +17,11 @@ import { getAllowedActions } from "@/common/utils";
 export function CutOffView() {
   const { rows, loading, getCutOffs, createCutOff, deleteCutOff } = useCutOffController();
   const exampleShiftData = {
-    totalRevenue: 45850.75,
-    itemsSold: 312,
-    stockEntries: 85,
-    stockExits: 350,
-    expectedCash: 45850.75
+    cutOffDate: "2023-06-01",
+    stockExits: 20,
+    totalRevenue: 1000,
+    stockEntries: 30,
+    stockOutputs: 40
   };
 
 
@@ -92,7 +93,7 @@ export function CutOffView() {
       />
 
       {showModalForm.isOpen && (
-        <ModalCutOffView isOpen={showModalForm.isOpen} onClose={handleCloseModal} shiftData={exampleShiftData} />
+        <ModalCutOffView isOpen={showModalForm.isOpen} onSubmit={() => createCutOff(selected, handleCloseModal)} onClose={handleCloseModal} data={exampleShiftData} />
       )}
     </Fragment>
   );
