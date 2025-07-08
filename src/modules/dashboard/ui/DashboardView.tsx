@@ -29,7 +29,7 @@ export function DashboardView() {
           <Grid item xs={12} sm={6} md={3} key={stat.title}>
             <Paper
               elevation={3}
-              sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+              sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, border: '1px solid', borderColor: 'divider' }}>
               <Box>{stat.icon}</Box>
               <Box>
                 <Typography variant="body2" color="text.secondary">{stat.title}</Typography>
@@ -48,7 +48,7 @@ export function DashboardView() {
           <Grid item xs={12} sm={6} md={3} key={feature.title}>
             <Paper
               elevation={1}
-              sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1, height: '100%' }}>
+              sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1, height: '100%', border: '1px solid', borderColor: 'divider' }}>
               <Box display="flex" alignItems="center" gap={1} mb={1}>
                 {feature.icon}
                 <Typography variant="subtitle1" fontWeight={600}>
@@ -58,9 +58,7 @@ export function DashboardView() {
               <Typography variant="body2" color="text.secondary" flex={1}>
                 {feature.description}
               </Typography>
-              <Link href={feature.href} passHref>
-                <SmartButton label="Ir al módulo" variant="outlined" />
-              </Link>
+              <SmartButton label={feature.cta.label} variant="outlined" onClick={feature.cta.action} />
             </Paper>
           </Grid>
         ))}

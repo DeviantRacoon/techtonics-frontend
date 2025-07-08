@@ -10,5 +10,5 @@ export interface IDashboardFeature {
   title: string;
   description: string;
   icon: ReactElement;
-  href: string;
+  cta: { label: string; action: () => void; };
 }

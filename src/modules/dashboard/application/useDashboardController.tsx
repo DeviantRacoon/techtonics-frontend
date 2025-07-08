@@ -10,37 +10,39 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
-import DashboardService from '../infrastructure/dashboard-service';
+// import DashboardService from '../infrastructure/dashboard-service';
 import { IDashboardFeature, IDashboardStat } from '../domain/dashboard-model';
+import { useRouter } from 'next/navigation';
 
-const dashboardService = new DashboardService();
+// const dashboardService = new DashboardService();
 
 export function useDashboardController() {
+  const router = useRouter();
   const [stats, setStats] = useState<IDashboardStat[]>([]);
   const [features] = useState<IDashboardFeature[]>([
     {
       title: 'Administrar productos',
       description: 'Agrega y actualiza tu inventario de artículos.',
       icon: <Inventory2Icon fontSize="large" color="primary" />,
-      href: '/products',
+      cta: { label: "Ir a productos", action: () => { router.push('/products') } }
     },
     {
-      title: 'Registrar movimientos',
+      title: 'Control de movimientos',
       description: 'Controla entradas y salidas de inventario.',
       icon: <CompareArrowsIcon fontSize="large" color="secondary" />,
-      href: '/movements',
+      cta: { label: "Ir a movimientos", action: () => { router.push('/movements') } }
     },
     {
       title: 'Registrar ventas',
       description: 'Genera ventas de forma rápida.',
       icon: <PointOfSaleIcon fontSize="large" color="success" />,
-      href: '/movements',
+      cta: { label: "Abrir venta", action: () => console.log('Go to sales') }
     },
     {
       title: 'Cortes de caja',
       description: 'Realiza y consulta cortes diarios.',
       icon: <ReceiptLongIcon fontSize="large" color="info" />,
-      href: '/cut-offs',
+      cta: { label: "Ir a cortes", action: () => {router.push('/cut-offs')} }
     },
   ]);
 
